@@ -1,0 +1,15 @@
+{
+  "AppName": "NodeJS Timsheet Application - Development",
+  "restAPIBaseURL": "127.0.0.1",
+  "restAPIPort": "8080",
+  "database": {
+    "connectionString": "mongodb+srv://sa:Passw0rd@cluster0.hxubs.gcp.mongodb.net/northwind",
+    "options": {
+      "autoIndex": false,
+      "poolSize": 10,
+      "bufferMaxEntries": 0,
+      "useNewUrlParser": true,
+      "useUnifiedTopology": true
+    }
+  }
+}

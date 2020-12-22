@@ -1,0 +1,90 @@
+/**@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;0,300;0,400;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,600;1,700;1,800;1,900&display=swap');
+**/
+/**@import "../../node_modules/@fortawesome/fontawesome-free/scss/fontawesome.scss";
+@import "../../node_modules/@fortawesome/fontawesome-free/scss/solid.scss";
+@import "../../node_modules/@fortawesome/fontawesome-free/scss/brands.scss";**/
+
+
+@tailwind base;
+@tailwind components;
+
+
+/**Ninja custom class***can be removed*****************************************************/
+.card {
+    @apply bg-gray-100 rounded overflow-hidden shadow-md relative;
+}
+.badge {
+    @apply bg-secondary-100 text-secondary-200 text-xs uppercase font-semibold rounded-full p-2 absolute top-0 ml-2 mt-2;
+}
+
+
+/**Ninja custom class ends***can be removed******************************************/
+
+/**Layout specific classes**********************************************************/
+.selectedNav{
+    @apply text-blue-400 no-underline border-b-2 border-blue-400;
+}
+.selectedNav:hover{
+    @apply text-gray-100 border-blue-400;
+}
+.unSelectedNav{
+    @apply text-gray-500 no-underline border-b-2 border-gray-900;
+}
+.unSelectedNav:hover{
+    @apply text-gray-100 border-pink-400;
+}
+
+.btn {
+    @apply inline-block px-5 py-3 rounded-lg shadow-xl uppercase text-xs font-bold cursor-pointer tracking-wider transition ease-out duration-75;
+}
+.btn:focus {
+    @apply outline-none shadow-outline;
+}
+.btn-rounded
+{
+    @apply  rounded-full;
+}
+.btn-indigo {
+    @apply  bg-indigo-500 text-white;
+}
+.btn-indigo:hover{
+    @apply bg-indigo-400;
+}
+.btn-indigo:active {
+    @apply bg-indigo-600;
+}
+
+.btn-gray {
+    @apply  bg-gray-500 text-black;
+}
+.btn-gray:hover{
+    @apply bg-gray-400;
+}
+.btn-gray:active {
+    @apply bg-gray-600;
+}
+
+.btn-blue {
+    @apply bg-blue-500 text-white;
+}
+.btn-blue:hover {
+    @apply bg-blue-400;
+}
+.btn-blue:active {
+    @apply bg-blue-600;
+}
+
+.btn-ninja{
+    @apply text-primary;
+}
+.btn-ninja:hover{
+    @apply bg-red-100;
+}
+.btn-ninja:active{
+    @apply bg-red-300;
+}
+.googlemap {
+    @apply w-full; height: 400px;
+}
+
+@tailwind utilities;

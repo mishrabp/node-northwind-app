@@ -1,0 +1,4 @@
+{
+  "authTokenSecretKey": "MYNWAPP_AuthTokenKey",
+  "sessionSecretKey": "MYNWAPP_SessionKey"
+}

@@ -1,0 +1,42 @@
+<div class="max-w-xl max-w-xs bg-blue-800 shadow-2xl rounded-lg mx-auto text-center py-12 mt-4 rounded-xl">
+  <h1 class="text-gray-200 text-center font-extrabold -mt-3 text-3xl">Login</h1>
+  <div class="container pt-5 max-w-md mx-auto">
+      <form method="post" action="/login">
+          <div class="mb-3">
+              <input class="shadow appearance-none  rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  id="inputEmailAddress" name="email" type="email" placeholder="Enter email address">
+          </div>
+          <div class="">
+              <input class="shadow appearance-none  rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                  id="inputPassword" name="password" type="password" placeholder="Enter password">
+          </div>
+          <div class="mb-4 flex items-center justify-start  hover:text-blue-200  active:text-blue-600 ">
+              <input class="rounded w-1/5 py-2 px-3 text-white mb-3 leading-tight focus:outline-none active:bg-indigo-400 "
+              id="rememberPasswordCheck" type="checkbox">
+              <label class="inline-block text-left rounded w-4/5 py-2 px-3 text-white mb-3 leading-tight focus:outline-none align-baseline" for="rememberPasswordCheck" >Remember password</label>
+          </div>
+          <div class="flex items-center justify-start">
+              <button
+                  class="bg-blue-500 hover:bg-blue-700 w-1/5 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                  type="submit">
+                  Sign In
+              </button>
+              <div class="inline-block w-1/5"></div>
+              <a class="inline-block align-baseline text-right font-bold text-sm text-gray-400  hover:text-blue-200  active:text-blue-600 " href="/passwordReset">
+                  Forgot Password?
+              </a> <span class="inline-block">&nbsp;&nbsp;</span>
+          </div>
+      </form>
+  </div>
+  <div class="container pt-2 max-w-xl mx-auto">
+      <a class="align-baseline text-right font-bold text-sm text-gray-400 hover:text-blue-200  active:text-blue-600 " href="/register">
+          Need an account? Sign up!
+      </a>
+      <%if(message){%>
+      <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+          <span class="ml-10 block sm:inline"><%=message%></span>
+      </div>
+      <%}%>
+  </div>
+</div>
+

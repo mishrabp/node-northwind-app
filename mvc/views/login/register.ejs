@@ -1,0 +1,71 @@
+<div class="max-w-xl max-w-xs bg-blue-800 shadow-2xl rounded-lg mx-auto text-center py-12 mt-4 rounded-xl">
+  <h1 class="text-gray-200 text-center font-extrabold -mt-3 text-3xl">Sign Up</h1>
+  <%if(!user){%>
+  <div class="container pt-5 max-w-md mx-auto">
+      <form action="/register" method="POST" enctype="application/x-www-form-urlencoded">
+          <div class="mb-3">
+              <input class="shadow appearance-none  rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="inputFirstName"
+              name="fname"
+              type="text"
+              placeholder="Enter first name">
+          </div>
+          <div class="mb-3">
+              <input class="shadow appearance-none  rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="inputLastName"
+                    name="lname"
+                    type="text"
+                    placeholder="Enter last name">
+          </div>
+          <div class="mb-3">
+              <input class="shadow appearance-none  rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="inputEmailAddress"
+                name="email"
+                type="email"
+                aria-describedby="emailHelp"
+                placeholder="Enter email address">
+          </div>
+          <div class="mb-3">
+              <input class="shadow appearance-none  rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+              id="inputPassword"
+                    name="password"
+                    type="password"
+                    placeholder="Enter password">
+          </div>
+          <div class="mb-3">
+              <input class="shadow appearance-none  rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+              id="inputConfirmPassword"
+                    name="confirmPassword"
+                    type="password"
+                    placeholder="Confirm password">
+          </div>
+          <div class="flex items-center justify-start">
+              <button
+                  class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                  type="submit">
+                  Sing Up
+              </button>
+          </div>
+      </form>
+  </div>
+  <div class="container pt-2 max-w-xl mx-auto">
+      <a class="align-baseline text-right font-bold text-sm text-gray-400 hover:text-blue-200  active:text-blue-600 " href="/login">
+          Have an account? Go to login
+      </a>
+  </div>
+  <%}%>
+  <%if(user){%>
+  <div class="container pt-2 max-w-xl mx-auto">
+      <div class="bg-blue-100 border-t border-b border-blue-500 text-blue-700 px-4 py-3 relative" role="alert">
+          <span class="ml-10 block sm:inline">Congratulations!!!. You have been successfully registered. <a href="/login">Click here to Login.</a></span>
+      </div>
+  </div>
+  <%}%>
+  <%if(message){%>
+  <div class="container pt-2 max-w-xl mx-auto">
+      <div class="bg-blue-100 border-t border-b border-blue-500 text-blue-700 px-4 py-3 relative" role="alert">
+          <span class="ml-10 block sm:inline"><%=message%></a></span>
+      </div>
+  </div>
+  <%}%>
+</div>
