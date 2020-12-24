@@ -6,6 +6,7 @@
   "scripts": {
     "start:dev": "gulp && setupLocalEnvironment.cmd && node server.js",
     "build": "gulp",
+    "pre-start": "setprodenv.sh",
     "start": "node server.js"
   },
   "engines": {
