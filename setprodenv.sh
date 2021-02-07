@@ -1,5 +1,5 @@
 export ENVIRONMENT=production
-export PORT=8080
+export PORT=9001
 export SSLPORT=443
 export MYNWAPP_AuthTokenKey=authtoken1
 export MYNWAPP_SessionKey=sessionkey1
