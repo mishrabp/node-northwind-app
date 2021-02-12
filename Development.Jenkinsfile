@@ -10,11 +10,20 @@ node {
         sh 'npm install'
         sh 'npm run build'
     }
-    stage('Code Quality Scan') {
+    stage('SonarQube analysis') {
         sh 'npm audit fix'
         def scannerHome = tool 'SonarQube Scanner'; //It finds the SonarQube Scanner version from Jenkins >> Global Tool Configuration
         withSonarQubeEnv('SonarQube Server') { // It reads the authentication from Jenkins >> Configuration Systems
             sh "${scannerHome}/bin/sonar-scanner"
+        }
+    }
+    stage("Quality Gate") {
+        steps {
+            timeout(time: 1, unit: 'HOURS') {
+                // Parameter indicates whether to set pipeline to UNSTABLE if Quality Gate fails
+                // true = set pipeline to UNSTABLE, false = don't
+                waitForQualityGate abortPipeline: true
+            }
         }
     }
     stage('Perform Test') {
