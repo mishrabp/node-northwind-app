@@ -4,7 +4,7 @@ node {
     
     stage('Preparation') { // for display purposes
         
-        sh 'rm -rf northwind*.tar.gz'
+        sh 'rm -rf node-northwind*.tar.gz'
         
         // Get some code from a GitHub repository
         git branch: 'main', url: 'https://github.com/mishrabp/node-northwind-app.git'
@@ -41,7 +41,7 @@ node {
             spec: """{
                 "files": [
                         {
-                            "pattern": "northwind*.gz",
+                            "pattern": "node-northwind-app*.tar.gz",
                             "target": "npm-local/node-northwind-app-production-ci-pipeline/"
                         }
                     ]
