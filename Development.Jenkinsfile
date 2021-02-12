@@ -1,16 +1,21 @@
 node {
-    //def mvnHome
+    
+    def buildFileName =  "node-northwind-app-${BUILD_NUMBER}.tar.gz"
+    
     stage('Preparation') { // for display purposes
+        
+        sh 'rm -rf northwind*.tar.gz'
+        
         // Get some code from a GitHub repository
         git branch: 'development', url: 'https://github.com/mishrabp/node-northwind-app.git'
         
     }
     stage('Build') {
-        // npm build
         sh 'npm install'
         sh 'npm run build'
+        sh 'tar czf ' + buildFileName + ' config dal middleware mvc routes public startup utility app.js server.js manifest.json setprodenv.sh LICENSE'
     }
-    stage('SonarQube analysis') {
+    stage('SonarQube Code Analysis') {
         sh 'npm audit fix'
         def scannerHome = tool 'SonarQube Scanner'; //It finds the SonarQube Scanner version from Jenkins >> Global Tool Configuration
         withSonarQubeEnv('SonarQube Server') { // It reads the authentication from Jenkins >> Configuration Systems
@@ -29,8 +34,23 @@ node {
     stage('Perform Test') {
         //
     }
-    stage('Publish to Artifactory') {
-        //jfrog //npm-publish //--build-name=node-northwind-app --build-number=1
+    stage('Publish Build to jFrog Artifactory') {
         //sh 'npm publish'
+        rtUpload (
+            serverId: "jfrog-artifactory-server", // Obtain an Artifactory server instance, defined in Jenkins --> Manage:
+            spec: """{
+                "files": [
+                        {
+                            "pattern": "northwind*.gz",
+                            "target": "npm-local/node-northwind-app-development-ci-pipeline/"
+                        }
+                    ]
+                }"""
+        )
+    }
+    stage ('Publish Build Info to jFrog Artifactory') {
+        rtPublishBuildInfo (
+            serverId: "jfrog-artifactory-server"
+        )
     }
 }
