@@ -13,7 +13,7 @@ node {
     stage('Build') {
         sh 'npm install'
         sh 'npm run build'
-        sh 'tar czf ' + buildFileName + ' config dal middleware mvc routes public startup utility app.js server.js manifest.json setprodenv.sh LICENSE'
+        sh 'tar czf ' + buildFileName + ' config dal middleware mvc node_modules routes public startup utility app.js server.js manifest.json setprodenv.sh LICENSE'
     }
     stage('SonarQube Code Analysis') {
         sh 'npm audit fix'
