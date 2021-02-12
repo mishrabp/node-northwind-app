@@ -41,7 +41,7 @@ node {
             spec: """{
                 "files": [
                         {
-                            "pattern": "northwind*.gz",
+                            "pattern": "node-northwind*.gz",
                             "target": "npm-local/node-northwind-app-development-ci-pipeline/"
                         }
                     ]
