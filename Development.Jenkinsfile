@@ -13,12 +13,9 @@ node {
     stage('Code Quality Scan') {
         sh 'npm audit fix'
         def scannerHome = tool 'SonarQube Scanner'; //It finds the SonarQube Scanner version from Jenkins >> Global Tool Configuration
-        withSonarQubeEnv('SonarQube Server', envOnly: true) { // It reads the authentication from Jenkins >> Configuration Systems
+        withSonarQubeEnv('SonarQube Server') { // It reads the authentication from Jenkins >> Configuration Systems
             sh "${scannerHome}/bin/sonar-scanner"
-            // This expands the evironment variables SONAR_CONFIG_NAME, SONAR_HOST_URL, SONAR_AUTH_TOKEN that can be used by any script.
-            println ${env.SONAR_HOST_URL} 
         }
-        
     }
     stage('Perform Test') {
         //
