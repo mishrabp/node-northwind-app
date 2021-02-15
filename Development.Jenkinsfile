@@ -1,4 +1,4 @@
-node {
+node { 
     
     def buildFileName =  "node-northwind-app-${BUILD_NUMBER}.tar.gz"
     
