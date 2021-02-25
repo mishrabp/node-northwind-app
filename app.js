@@ -1,4 +1,4 @@
-const express = require("express");
+const express = require("express"); 
 const compression = require("compression");
 const expressLayouts = require("express-ejs-layouts");
 const app = express();

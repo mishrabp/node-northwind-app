@@ -3,7 +3,7 @@
   "restAPIBaseURL": "127.0.0.1",
   "restAPIPort": "8080",
   "database": {
-    "connectionString": "mongodb+srv://sa:Passw0rd@cluster0.hxubs.gcp.mongodb.net/northwind",
+    "connectionString": "mongodb+srv://mongoadmin:passw0rd!@devopsmasterlinuxvm.centralus.cloudapp.azure.com/?poolSize=20&writeConcern=majority",
     "options": {
       "autoIndex": false,
       "poolSize": 10,
