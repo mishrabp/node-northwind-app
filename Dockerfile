@@ -1,24 +1,27 @@
 # Specifies which OS to use. Here it is unix OS pre-installed with node v-12
 FROM ubuntu:latest
+MAINTAINER bibhup_mishra@yahoo.com
+RUN apt-get update -y
 RUN apt-get install curl -y
-RUN curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash - -y
+RUN curl -sL https://deb.nodesource.com/setup_10.x 
 RUN apt-get install nodejs -y
+RUN apt-get install npm -y
 RUN npm install --unsafe-perm=true --allow-root -y
 
 
 # create folder <app> inside the container image
 RUN mkdir -p /app
 
+# copy source files from host computer to container
+COPY package.json ./app/
+COPY . ./app/
+
 # Set working directory. Paths will be relative this WORKDIR.
 WORKDIR /app
 
 # Install dependencies
-COPY package*.json /app
 RUN npm config set registry http://registry.npmjs.org/
 RUN npm install
-
-# Copy source files from host computer to the container
-COPY . /app
 
 # Build the app
 RUN npm run build

@@ -1,0 +1,5 @@
+*.sh
+*.cmd
+/node_modules/
+.git
+.gitignore
