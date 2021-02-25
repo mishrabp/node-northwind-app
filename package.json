@@ -10,9 +10,11 @@
     "start": "node server.js"
   },
   "engines": {
-    "node": "10.15"
+    "node": "12.21.0"
   },
-  "publishConfig":{"registry":"https://devopsbpm.jfrog.io/artifactory/api/npm/npm/"},
+  "publishConfig": {
+    "registry": "https://devopsbpm.jfrog.io/artifactory/api/npm/npm/"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",

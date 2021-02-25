@@ -1,9 +1,9 @@
 # Specifies which OS to use. Here it is unix OS pre-installed with node v-12
 FROM ubuntu:latest
-MAINTAINER bibhup_mishra@yahoo.com
+LABEL developer=bibhup_mishra@yahoo.com
 RUN apt-get update -y
 RUN apt-get install curl -y
-RUN curl -sL https://deb.nodesource.com/setup_10.x 
+RUN curl -sL https://deb.nodesource.com/setup_10.2 
 RUN apt-get install nodejs -y
 RUN apt-get install npm -y
 RUN npm install --unsafe-perm=true --allow-root -y
