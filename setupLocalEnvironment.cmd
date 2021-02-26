@@ -1,5 +1,5 @@
-set ENVIRONMENT=development
-set NODE_ENV=development
+set ENVIRONMENT=production
+set NODE_ENV=production
 set PORT=8080
 set SSLPORT=443
 set MYNWAPP_AuthTokenKey=authtoken1
