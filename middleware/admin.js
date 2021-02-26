@@ -3,7 +3,7 @@
 const common = require("../utility/common");
 
 module.exports = function (req, res, next) {
-  if (req.user.role != "Admin" || req.user.role != "admin")
+  if (req.user.role != "Admin" && req.user.role != "admin")
     return res
       .status(403)
       .render("error/error", {
