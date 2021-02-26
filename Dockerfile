@@ -11,8 +11,8 @@ RUN apt-get update -y && \
     mkdir -p /app 
 
 # copy source files from host computer to container
-COPY package.json ./app/ && \
-    . ./app/
+COPY package.json ./app/ 
+COPY . ./app/
 
 # Set working directory. Paths will be relative this WORKDIR.
 WORKDIR /app
