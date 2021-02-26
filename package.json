@@ -7,7 +7,7 @@
     "start:dev": "gulp && setupLocalEnvironment.cmd && node server.js",
     "build": "gulp",
     "pre-start": "setprodenv.sh",
-    "start": "node server.js"
+    "start": "node cluster.js"
   },
   "engines": {
     "node": "12.21.0"

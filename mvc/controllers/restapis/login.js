@@ -12,6 +12,7 @@ module.exports = {
   },
   login: async (req, res) => {
     try {
+      console.log('call received')
       const user = await User.findOne({ email: req.body.email });
       var retValue = "";
       var retCode = 200;
@@ -45,9 +46,11 @@ module.exports = {
         retCode = 401;
       }
     } catch (ex) {
+      console.log('error111111111')
       retValue = { message: ex.message, data: null, authToken: null };
       console.log(ex);
     }
+    console.log('return value: ' + retValue)
     res.status(retCode).send(retValue);
   },
   register: async (req, res) => {

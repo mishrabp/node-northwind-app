@@ -1,5 +1,6 @@
 *.sh
 *.cmd
 /node_modules/
+/public/
 .git
 .gitignore

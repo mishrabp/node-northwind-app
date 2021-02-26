@@ -1,4 +1,5 @@
 export ENVIRONMENT=production
+export NODE_ENV=development
 export PORT=8091
 export SSLPORT=443
 export MYNWAPP_AuthTokenKey=authtoken1
