@@ -1,15 +1,3 @@
 {
-  "AppName": "NodeJS Timsheet Application - Development",
-  "restAPIBaseURL": "localhost",
-  "restAPIPort": "8080",
-  "database": {
-    "connectionString": "mongodb://mongoadmin:passw0rd!@devopsmasterlinuxvm.centralus.cloudapp.azure.com:27017/northwind?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&ssl=false",
-    "options": {
-      "autoIndex": false,
-      "poolSize": 10,
-      "bufferMaxEntries": 0,
-      "useNewUrlParser": true,
-      "useUnifiedTopology": true
-    }
-  }
+  "AppName": "NodeJS Timsheet Application - Development"
 }

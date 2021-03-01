@@ -28,6 +28,7 @@ module.exports = {
 
   recordResponseTime: function (req, res, next) {
     console.log('request received.');
+    global.appHost = req.headers.host;
     const startTime = Date.now();
     res.on("finish", function () {
       console.log('response sent.');

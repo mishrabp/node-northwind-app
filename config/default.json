@@ -1,11 +1,6 @@
 {
   "AppName": "NodeJS Northwind Application",
-  "errorLogging": true,
-  "requestLogging": true,
-  "restAPIBaseURL": "devopsmasterlinuxvm.centralus.cloudapp.azure.com",
-  "restAPIPort": "8080",
-  "database": {
-    "connectionString": "mongodb://mongoadmin:passw0rd!@devopsmasterlinuxvm.centralus.cloudapp.azure.com:27017/northwind?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&ssl=false",
+  "MONGO_DB": {
     "options": {
       "autoIndex": false,
       "poolSize": 10,
@@ -14,4 +9,5 @@
       "useUnifiedTopology": true
     }
   }
+
 }

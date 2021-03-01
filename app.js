@@ -13,6 +13,7 @@ console.log("Web server is starting...................");
 
 /************************Setting Validation****************************/
 console.log("Reading environment setups................");
+
 if (!config.get("sessionSecretKey")) {
   console.log("FATAL ERROR: session key is not defined");
   process.exit(1);

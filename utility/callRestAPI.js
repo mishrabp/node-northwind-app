@@ -1,8 +1,6 @@
 const http = require("http");
 const { config } = require("./common");
 const querystring = require("querystring");
-const baseURL = config.get("restAPIBaseURL");
-const port80 = config.get("restAPIPort");
 
 module.exports = {
   //url - service base url
@@ -23,10 +21,21 @@ module.exports = {
           "Content-Length": dataString.length,
         };
       }
+      var urlAddress = global.appHost.split(":");
+      if(urlAddress.length === 2)
+      {
+        global.appBaseURL = urlAddress[0];
+        global.appPort = urlAddress[1];
+      }
+      else
+      {
+        global.appBaseURL = global.appHost;
+        global.appPort = "80";
+      }
       var api_result = "";
       const options = {
-        host: baseURL,
-        port: port80,
+        host: global.appBaseURL,
+        port: global.appPort,
         path: endpoint,
         method: method,
         headers: headers,

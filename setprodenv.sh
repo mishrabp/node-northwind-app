@@ -1,8 +1,8 @@
-export ENVIRONMENT=production
-export NODE_ENV=development
-export PORT=8091
-export SSLPORT=443
-export MYNWAPP_AuthTokenKey=authtoken1
-export MYNWAPP_SessionKey=sessionkey1
-export GEOCODER_API_KEY=AIzaSyAFN7pm1QA20ojk8CA2tQnXzOHB1ryRGtM
-
+MYNWAPP_ENV=development
+MYNWAPP_PORT=8091
+MYNWAPP_AuthTokenKey=authtoken1
+MYNWAPP_SessionKey=sessionkey1
+MYNWAPP_GEOCODER_API_KEY=AIzaSyAFN7pm1QA20ojk8CA2tQnXzOHB1ryRGtM
+MYNWAPP_ERRORLOG=true
+MYNWAPP_TRACKINGLOG=true
+MYNWAPP_MONGO_URI="mongodb://mongoadmin:passw0rd!@devopsmasterlinuxvm.centralus.cloudapp.azure.com:27017/northwind?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&ssl=false"

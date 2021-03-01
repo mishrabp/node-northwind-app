@@ -1,4 +1,8 @@
 {
   "authTokenSecretKey": "MYNWAPP_AuthTokenKey",
-  "sessionSecretKey": "MYNWAPP_SessionKey"
+  "sessionSecretKey": "MYNWAPP_SessionKey",
+  "GEOCODER_API_KEY": "MYNWAPP_GEOCODER_API_KEY",
+  "errorLogging": "MYNWAPP_ERRORLOG",
+  "requestLogging": "MYNWAPP_TRACKINGLOG",
+  "MONGO_DB_URI": "MYNWAPP_MONGO_URI"
 }

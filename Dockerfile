@@ -10,29 +10,31 @@ RUN apt-get update -y && \
     # create folder <app> inside the container image
     mkdir -p /app 
 
-# copy source files from host computer to container
-COPY package.json ./app/ 
-COPY . ./app/
-
-# Set working directory. Paths will be relative this WORKDIR.
+# Set working directory within the image. Paths will be relative this WORKDIR.
 WORKDIR /app
+
+# copy source files from host computer to container
+COPY ["package.json", "package-lock.json*", "./"]
+COPY . .
 
 # Install dependencies and build app
 RUN npm config set registry http://registry.npmjs.org/ && \
-    npm install && \
+    npm install --silent && \
+    npm install -g nodemon && \
     npm run build
 
 # Specify port app runs on
 EXPOSE 8091
 
 # Set environment variable default value
-ENV ENVIRONMENT=production \
-NODE_ENV=production \
-PORT=8091 \
-SSLPORT=443 \
+ENV MYNWAPP_ENV=development \
+MYNWAPP_PORT=8091 \
 MYNWAPP_AuthTokenKey=authtoken1 \
 MYNWAPP_SessionKey=sessionkey1 \
-GEOCODER_API_KEY=AIzaSyAFN7pm1QA20ojk8CA2tQnXzOHB1ryRGtM
+MYNWAPP_GEOCODER_API_KEY=AIzaSyAFN7pm1QA20ojk8CA2tQnXzOHB1ryRGtM \
+MYNWAPP_ERRORLOG=true \
+MYNWAPP_TRACKINGLOG=true \
+MYNWAPP_MONGO_URI="mongodb://mongoadmin:passw0rd!@devopsmasterlinuxvm.centralus.cloudapp.azure.com:27017/northwind?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&ssl=false"
 
 
 # Run the app
