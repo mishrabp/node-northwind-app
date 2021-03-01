@@ -14,13 +14,13 @@ services:
             - MYNWAPP_SessionKey=sessionkey1
             - MYNWAPP_GEOCODER_API_KEY=AIzaSyAFN7pm1QA20ojk8CA2tQnXzOHB1ryRGtM
             - MYNWAPP_ERRORLOG=true
-            - MYNWAPP_MONGO_URI='mongodb://mongo:8093/northwind?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&ssl=false'
+            - MYNWAPP_MONGO_URI='mongodb://mongo-db-dev:8093/northwind?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&ssl=false'
         volumes:
             - .:/app
             #  - ./error.log:/usr/src/app/error.log
     
     mongo:
-        container_name: mongo
+        container_name: mongo-db-dev
         image: mongo
         ports:
             - "8093:27017"

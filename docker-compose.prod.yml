@@ -1,10 +1,10 @@
 version: "3"
 services:
     web:
-        container_name: node-northwind-app-dev
+        container_name: node-northwind-app
         restart: always
-        #build: ./
-        image: "bpm/node-northwind-app:latest"
+        build: ./
+        #image: "bpm/node-northwind-app:latest"
         ports:
             - "8092:8091"
         environment:
