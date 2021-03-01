@@ -4,7 +4,7 @@ const { config } = require("../utility/common");
 (async () => {
   try {
     await mongooseDB.connect(
-      process.env.MYNWAPP_MONGO_URI,
+      config.get("MONGO_DB_URI"),
       config.get("MONGO_DB.options")
     );
     console.log("mongoose database is successfully connected.");
