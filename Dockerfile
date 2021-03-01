@@ -23,17 +23,17 @@ RUN npm config set registry http://registry.npmjs.org/ && \
     npm run build
 
 # Specify port app runs on
-EXPOSE 8091
+EXPOSE 8080
 
 # Set environment variable default value
 ENV MYNWAPP_ENV=development \
-MYNWAPP_PORT=8091 \
+MYNWAPP_PORT=8080 \
 MYNWAPP_AuthTokenKey=authtoken1 \
 MYNWAPP_SessionKey=sessionkey1 \
 MYNWAPP_GEOCODER_API_KEY=AIzaSyAFN7pm1QA20ojk8CA2tQnXzOHB1ryRGtM \
 MYNWAPP_ERRORLOG=true \
 MYNWAPP_TRACKINGLOG=true \
-MYNWAPP_MONGO_URI="mongodb://mongoadmin:passw0rd!@devopsmasterlinuxvm.centralus.cloudapp.azure.com:27017/northwind?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&ssl=false"
+MYNWAPP_MONGO_URI="mongodb://mongoadmin:passw0rd!@devopsmasterlinuxvm.centralus.cloudapp.azure.com:9003/northwind?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&ssl=false"
 
 
 # Run the app

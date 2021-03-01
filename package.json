@@ -7,7 +7,11 @@
     "start:dev": "gulp && setupLocalEnvironment.cmd && node server.js",
     "build": "gulp",
     "pre-start": "setprodenv.sh",
-    "start": "node cluster.js"
+    "start": "node server.js",
+    "docker:start:prod": "sudo bash ./setprodenv.sh && sudo docker-compose  -f docker-compose.prod.yml up -d",
+    "docker:stop:prod": "sudo docker-compose  -f docker-compose.prod.yml down",
+    "docker:start:dev": "sudo bash ./setprodenv.sh && sudo docker-compose  -f docker-compose.dev.yml up -d",
+    "docker:stop:dev": "sudo docker-compose  -f docker-compose.dev.yml down"
   },
   "engines": {
     "node": "12.21.0"
