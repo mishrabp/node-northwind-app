@@ -29,8 +29,6 @@ module.exports = {
   recordResponseTime: function (req, res, next) {
     console.log('request received.');
     global.appHost = req.headers.host;
-    console.log('authTokenSecretKey: ' + authTokenSecretKey)
-    console.log('authTokenSecretKey: ' + MONGO_DB_URI)
     const startTime = Date.now();
     res.on("finish", function () {
       console.log('response sent.');

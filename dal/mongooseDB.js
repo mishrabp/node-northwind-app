@@ -3,6 +3,8 @@ const { config } = require("../utility/common");
 
 (async () => {
   try {
+    console.log('authTokenSecretKey: ' + config.get("authTokenSecretKey"))
+    console.log('MONGO_DB_URI: ' + config.get("MONGO_DB_URI"))
     await mongooseDB.connect(
       config.get("MONGO_DB_URI"),
       config.get("MONGO_DB.options")
