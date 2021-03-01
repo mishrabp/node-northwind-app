@@ -20,7 +20,6 @@ COPY . .
 # Install dependencies and build app
 RUN npm config set registry http://registry.npmjs.org/ && \
     npm install --silent && \
-    npm install -g nodemon && \
     npm run build
 
 # Specify port app runs on
