@@ -15,9 +15,6 @@ console.log("Web server is starting...................");
 console.log("Reading environment setups................");
 
 
-console.log('authTokenSecretKey: ' + config.get("authTokenSecretKey"))
-console.log('MONGO_DB_URI: ' + config.get("MONGO_DB_URI"))
-
 if (!config.get("sessionSecretKey")) {
   console.log("FATAL ERROR: session key is not defined");
   process.exit(1);
