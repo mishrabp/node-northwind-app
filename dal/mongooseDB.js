@@ -3,10 +3,8 @@ const { config } = require("../utility/common");
 
 (async () => {
   try {
-    console.log('authTokenSecretKey: ' + config.get("authTokenSecretKey"))
-    console.log('MONGO_DB_URI: ' + config.get("MONGO_DB_URI"))
     await mongooseDB.connect(
-      config.get("MONGO_DB_URI"),
+      process.env.MYNWAPP_MONGO_URI,
       config.get("MONGO_DB.options")
     );
     console.log("mongoose database is successfully connected.");
