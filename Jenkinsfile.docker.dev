@@ -1,0 +1,19 @@
+node { 
+    
+    def buildName = "bpm/node-northwind-app-${BUILD_NUMBER}"
+    def app
+    
+    stage('Checkout') { // for display purposes
+        git branch: 'development', url: 'https://github.com/mishrabp/node-northwind-app.git'
+    }
+
+    stage('Docker Build') {
+        app = docker.build(buildName)
+    }
+
+    stage('Test Build') {
+        app.inside {
+            sh 'echo "Test Passed"'
+        }
+    }
+}

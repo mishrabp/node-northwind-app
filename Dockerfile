@@ -6,7 +6,6 @@ RUN apt-get update -y && \
     curl -sL https://deb.nodesource.com/setup_10.2  && \
     apt-get install nodejs -y && \
     apt-get install npm -y && \
-    npm install --unsafe-perm=true --allow-root -y && \
     # create folder <app> inside the container image
     mkdir -p /app 
 
@@ -19,7 +18,8 @@ COPY . .
 
 # Install dependencies and build app
 RUN npm config set registry http://registry.npmjs.org/ && \
-    npm install --silent && \
+    npm install --unsafe-perm=true --allow-root -y && \
+    npm install && \
     npm run build
 
 # Specify port app runs on

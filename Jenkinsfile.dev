@@ -1,5 +1,7 @@
 node { 
     
+    def commit_id
+    def buildName = "node-northwind-app-${BUILD_NUMBER}"
     def buildFileName =  "node-northwind-app-${BUILD_NUMBER}.tar.gz"
     
     stage('Preparation') { // for display purposes
@@ -8,7 +10,10 @@ node {
         
         // Get some code from a GitHub repository
         git branch: 'development', url: 'https://github.com/mishrabp/node-northwind-app.git'
-        
+        //checkout scm
+        //sh "git rev-parse --short HEAD > .git/commit-id"
+        //commit_id = readFile('.git/commit-id').trim()
+        //buildFileName =  "node-northwind-app-${BUILD_NUMBER}-${commit_id}.tar.gz"
     }
     stage('Build') {
         sh 'npm install'
@@ -16,7 +21,7 @@ node {
         sh 'tar czf ' + buildFileName + ' config dal middleware mvc node_modules routes public startup utility app.js server.js manifest.json setprodenv.sh LICENSE'
     }
     stage('SonarQube Code Analysis') {
-        sh 'npm audit fix'
+        //sh 'npm audit fix'
         def scannerHome = tool 'SonarQube Scanner'; //It finds the SonarQube Scanner version from Jenkins >> Global Tool Configuration
         withSonarQubeEnv('SonarQube Server') { // It reads the authentication from Jenkins >> Configuration Systems
             sh "${scannerHome}/bin/sonar-scanner"
