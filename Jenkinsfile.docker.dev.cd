@@ -25,6 +25,7 @@ pipeline {
                         println 'stop the running image and remove it.' 
                         sh "docker stop $containerName"
                         sh "docker rm $containerName"
+                        sh "docker rmi $imagename"
                     } catch (e) {
                         println 'failed in stopping the running image.'
                     }
