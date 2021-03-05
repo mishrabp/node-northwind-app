@@ -22,8 +22,8 @@ node {
     }
     stage('SonarQube Code Analysis') {
         //sh 'npm audit fix'
-        def scannerHome = tool 'SonarQube Scanner'; //It finds the SonarQube Scanner version from Jenkins >> Global Tool Configuration
-        withSonarQubeEnv('SonarQube Server') { // It reads the authentication from Jenkins >> Configuration Systems
+        def scannerHome = tool 'SonarQubeScanner'; //It finds the SonarQube Scanner version from Jenkins >> Global Tool Configuration
+        withSonarQubeEnv('SonarQubeServer') { // It reads the authentication from Jenkins >> Configuration Systems
             sh "${scannerHome}/bin/sonar-scanner"
         }
     }
