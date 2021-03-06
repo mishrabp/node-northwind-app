@@ -56,8 +56,10 @@ pipeline {
             }
         }
         stage('Notification') {
-            echo 'OK'
-            mail bcc: '', body: 'node-northwind-app deployment is successfully completed.', cc: '', from: 'noreply@devopsmasterlinuxvm.centralus.cloudapp.azure.com', replyTo: '', subject: 'Jenkins Automation: node-northwind-app dev deploy', to: 'bibhup_mishra@yahoo.com'
+            steps {
+                echo 'OK'
+                mail bcc: '', body: 'node-northwind-app deployment is successfully completed.', cc: '', from: 'noreply@devopsmasterlinuxvm.centralus.cloudapp.azure.com', replyTo: '', subject: 'Jenkins Automation: node-northwind-app dev deploy', to: 'bibhup_mishra@yahoo.com'
+            }
         }
     }
 }
