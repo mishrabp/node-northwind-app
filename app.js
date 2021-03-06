@@ -13,7 +13,8 @@ const appInsights = require('applicationinsights');
 console.log("Web server is starting...................");
 
 /*********************Configuring Azure Application Insight*********** */
-appInsights.setup('<instrumentation_key>').start();
+//instrumentation key is associated to the App Insight instant defined in Azure
+appInsights.setup('8c3da1a3-719a-4a9b-8b07-ad3251f92b89').start();
 
 
 /************************Setting Validation****************************/
