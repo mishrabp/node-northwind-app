@@ -24,6 +24,7 @@
   "license": "ISC",
   "dependencies": {
     "applicationinsights": "^1.8.10",
+    "applicationinsights-native-metrics": "0.0.6",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "cluster": "^0.7.7",

@@ -14,7 +14,9 @@ console.log("Web server is starting...................");
 
 /*********************Configuring Azure Application Insight*********** */
 //instrumentation key is associated to the App Insight instant defined in Azure
-appInsights.setup('8c3da1a3-719a-4a9b-8b07-ad3251f92b89').start();
+appInsights.setup('8c3da1a3-719a-4a9b-8b07-ad3251f92b89')
+  .setDistributedTracingMode(appInsights.DistributedTracingModes.AI_AND_W3C)
+  .start();
 
 
 /************************Setting Validation****************************/
