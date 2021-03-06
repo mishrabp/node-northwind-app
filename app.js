@@ -8,8 +8,13 @@ const { config } = require("./utility/common");
 //const config = require("config");
 const tracker = require("./middleware/tracker");
 const core = require('./middleware/core');
+const appInsights = require('applicationinsights');
 
 console.log("Web server is starting...................");
+
+/*********************Configuring Azure Application Insight*********** */
+appInsights.setup('<instrumentation_key>').start();
+
 
 /************************Setting Validation****************************/
 console.log("Reading environment setups................");
