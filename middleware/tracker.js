@@ -27,6 +27,7 @@ module.exports = {
   },
 
   recordResponseTime: function (req, res, next) {
+    req.headers['if-none-match'] = 'no-match-for-this';
     console.log('request received.');
     global.appHost = req.headers.host;
     const startTime = Date.now();
