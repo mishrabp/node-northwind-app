@@ -4,20 +4,20 @@ pipeline {
     } 
 
     environment {
-        
+        EMAIL_TO = "bibhu.prasad.mishra@nttdata.com"
         buildFileName =  "node-northwind-app-${BUILD_NUMBER}.tar.gz"
 
         ////Docker Hub Registry Settings
         imagename = "bibhupmishra/node-northwind-app"
         registryCredential = "docker-hub-id" //defined in Jenknins >> Credentials
         registryURL = 'https://registry.hub.docker.com';
+        dockerImage = ''
         
         ////Azure Container Registry Settings
         //imagename = "bpm2021"
         //registryCredential = "azure-login-id" //defined in Jenknins >> Credentials
         //registryURL = 'https://bpm2021.azurecr.io';
 
-        dockerImage = ''
         scannerHome = tool name: 'SonarQubeScanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation' //It finds the SonarQube Scanner version from Jenkins >> Global Tool Configuration
     }
     options {
@@ -100,6 +100,32 @@ pipeline {
                     }
                 } 
             }
+        }
+    }
+    post {
+        success {
+            emailext body: '<pre>${BUILD_LOG, maxLines=9999, escapeHtml=false}</pre>', 
+                    to: "${EMAIL_TO}", 
+                    mimeType: 'text/html',
+                    subject: 'Build succeeded in Jenkins: $PROJECT_NAME - #$BUILD_NUMBER'
+        }
+        success {
+            emailext body: '<pre>${BUILD_LOG, maxLines=9999, escapeHtml=false}</pre>', 
+                    to: "${EMAIL_TO}", 
+                    mimeType: 'text/html',
+                    subject: 'Build failed in Jenkins: $PROJECT_NAME - #$BUILD_NUMBER'
+        }
+        unstable {
+            emailext body: 'Check console output at $BUILD_URL to view the results. \n\n ${CHANGES} \n\n -------------------------------------------------- \n${BUILD_LOG, maxLines=100, escapeHtml=false}', 
+                    to: "${EMAIL_TO}", 
+                    mimeType: 'text/html',
+                    subject: 'Unstable build in Jenkins: $PROJECT_NAME - #$BUILD_NUMBER'
+        }
+        changed {
+            emailext body: 'Check console output at $BUILD_URL to view the results.', 
+                    to: "${EMAIL_TO}", 
+                    mimeType: 'text/html',
+                    subject: 'Jenkins build is back to normal: $PROJECT_NAME - #$BUILD_NUMBER'
         }
     }
 }

@@ -4,7 +4,7 @@ pipeline {
     }
 
     environment {
-        
+        EMAIL_TO = "bibhu.prasad.mishra@nttdata.com"
         ////Docker Hub Registry Settings
         imagename = "bibhupmishra/node-northwind-app"
         registryCredential = "docker-hub-id" //defined in Jenknins >> Credentials
@@ -12,6 +12,7 @@ pipeline {
         
         dockerImage = ''
         containerName = "node-northwind-app"
+        htmlReport="<html><title>$containerName - Build Report</title><body><h1>$containerName - Build Report</h1><table><tr><td colspan=1></td></tr>##body##</table><br/><br/>Thank you <br/>-Yours Jenkins</body></html>"
     }
     options {
         skipStagesAfterUnstable()
@@ -58,8 +59,34 @@ pipeline {
         stage('Notification') {
             steps {
                 echo 'OK'
-                mail bcc: '', body: 'node-northwind-app deployment is successfully completed.', cc: '', from: 'noreply@devopsmasterlinuxvm.centralus.cloudapp.azure.com', replyTo: '', subject: 'Jenkins Automation: node-northwind-app dev deploy', to: 'bibhup_mishra@yahoo.com'
+                mail bcc: '', body: "$htmlReport", cc: '', from: 'noreply@jenkins.com', replyTo: '', subject: 'Jenkins Automation: node-northwind-app dev deploy', to: 'bibhup_mishra@yahoo.com'
             }
+        }
+    }
+    post {
+        success {
+            emailext body: '<pre>${BUILD_LOG, maxLines=9999, escapeHtml=false}</pre>', 
+                    to: "${EMAIL_TO}", 
+                    mimeType: 'text/html',
+                    subject: 'Build succeeded in Jenkins: $PROJECT_NAME - #$BUILD_NUMBER'
+        }
+        success {
+            emailext body: '<pre>${BUILD_LOG, maxLines=9999, escapeHtml=false}</pre>', 
+                    to: "${EMAIL_TO}", 
+                    mimeType: 'text/html',
+                    subject: 'Build failed in Jenkins: $PROJECT_NAME - #$BUILD_NUMBER'
+        }
+        unstable {
+            emailext body: 'Check console output at $BUILD_URL to view the results. \n\n ${CHANGES} \n\n -------------------------------------------------- \n${BUILD_LOG, maxLines=100, escapeHtml=false}', 
+                    to: "${EMAIL_TO}", 
+                    mimeType: 'text/html',
+                    subject: 'Unstable build in Jenkins: $PROJECT_NAME - #$BUILD_NUMBER'
+        }
+        changed {
+            emailext body: 'Check console output at $BUILD_URL to view the results.', 
+                    to: "${EMAIL_TO}", 
+                    mimeType: 'text/html',
+                    subject: 'Jenkins build is back to normal: $PROJECT_NAME - #$BUILD_NUMBER'
         }
     }
 }
