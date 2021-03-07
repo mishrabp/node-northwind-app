@@ -109,7 +109,7 @@ pipeline {
                     mimeType: 'text/html',
                     subject: 'Build succeeded in Jenkins: $PROJECT_NAME - #$BUILD_NUMBER'
         }
-        success {
+        failure {
             emailext body: '<pre>${BUILD_LOG, maxLines=9999, escapeHtml=false}</pre>', 
                     to: "${EMAIL_TO}", 
                     mimeType: 'text/html',
