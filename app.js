@@ -8,13 +8,13 @@ const { config } = require("./utility/common");
 //const config = require("config");
 const tracker = require("./middleware/tracker");
 const core = require('./middleware/core');
-const appInsights = require('applicationinsights');
+//const appInsights = require('applicationinsights');
 
 console.log("Web server is starting...................");
 
 /*********************Configuring Azure Application Insight*********** */
 //instrumentation key is associated to the App Insight instant defined in Azure
-appInsights.setup('8c3da1a3-719a-4a9b-8b07-ad3251f92b89')
+/*appInsights.setup('8c3da1a3-719a-4a9b-8b07-ad3251f92b89')
   .setDistributedTracingMode(appInsights.DistributedTracingModes.AI_AND_W3C)
   .start();
 let client = appInsights.defaultClient;
@@ -24,9 +24,9 @@ appInsights.defaultClient.commonProperties = {
 client.trackEvent({name: "my custom event", properties: {customProperty: "custom property value"}});
 client.trackException({exception: new Error("handled exceptions can be logged with this method")});
 client.trackMetric({name: "custom metric", value: 3});
-client.trackTrace({message: "trace message"});
+client.trackTrace({message: "trace message"});*/
 //client.trackDependency({target:"http://dbname", name:"select customers proc", data:"SELECT * FROM Customers", duration:231, resultCode:0, success: true, dependencyTypeName: "ZSQL"});
-client.trackRequest({name:"GET /customer", url:"http://devopsnode1linuxvm.centralus.cloudapp.azure.com:8081/customer", duration:309, resultCode:200, success:true});
+//client.trackRequest({name:"GET /customer", url:"http://devopsnode1linuxvm.centralus.cloudapp.azure.com:8081/customer", duration:309, resultCode:200, success:true});
   
 
 
