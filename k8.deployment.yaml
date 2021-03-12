@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: node-northwind-deployment
+  labels: 
+    app: node-northwind-app
+#specification for deployment
+spec:
+  replicas: 2 #no of pod replicas needed.
+  selector:
+    matchLabels:
+      app: node-northwind-app
+  #template applies to Pod
+  template: 
+    metadata:
+      labels:
+        app: node-northwind-app
+    #specification is the blueprint of a Pod
+    spec:
+      containers: 
+      - name: node-northwind-app
+        image: bibhupmishra/node-northwind-app
+        ports:
+        - containerPort: 8080     
