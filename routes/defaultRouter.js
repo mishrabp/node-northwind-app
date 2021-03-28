@@ -11,7 +11,7 @@ const messageController = require("../mvc/controllers/messageController");
 const taskController = require("../mvc/controllers/taskController");
 const locationController = require("../mvc/controllers/locationController");
 const paymentController = require("../mvc/controllers/paymentController");
-const core = require("../middleware/core");
+//const core = require("../middleware/core");
 
 
 //set the middleware to use default template

@@ -3,12 +3,11 @@ const { config } = require("../utility/common");
 
 (async () => {
   try {
-    //console.log(config.get('database.connectionString'));
     await mongooseDB.connect(
-      config.get("database.connectionString"),
-      config.get("database.options")
+      config.get("MONGO_DB_URI"),
+      config.get("MONGO_DB.options")
     );
-    console.log("mongoose database is successfully conneected.");
+    console.log("mongoose database is successfully connected.");
   } catch (ex) {
     console.log(ex);
     process.exit(1);

@@ -1,0 +1,131 @@
+pipeline { 
+    agent  {
+        label 'docker-label'
+    } 
+
+    environment {
+        EMAIL_TO = "bibhu.prasad.mishra@nttdata.com"
+        buildFileName =  "node-northwind-app-${BUILD_NUMBER}.tar.gz"
+
+        ////Docker Hub Registry Settings
+        imagename = "bibhupmishra/node-northwind-app"
+        registryCredential = "docker-hub-id" //defined in Jenknins >> Credentials
+        registryURL = 'https://registry.hub.docker.com';
+        dockerImage = ''
+        
+        ////Azure Container Registry Settings
+        //imagename = "bpm2021"
+        //registryCredential = "azure-login-id" //defined in Jenknins >> Credentials
+        //registryURL = 'https://bpm2021.azurecr.io';
+
+        scannerHome = tool name: 'SonarQubeScanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation' //It finds the SonarQube Scanner version from Jenkins >> Global Tool Configuration
+    }
+    options {
+        skipStagesAfterUnstable()
+        //timeout(time: 1, unit: 'HOURS')
+    }
+    stages {
+        stage('Preparation') { 
+            steps { 
+                println 'checking out code from github.'
+                sh 'rm -rf node-northwind-app*.tar.gz'
+                git branch: 'development', url: 'https://github.com/mishrabp/node-northwind-app.git' 
+            }
+        }
+        stage('Build') { 
+            steps { 
+                println 'building code.' 
+                sh 'npm install'
+                sh 'npm run build'
+                //sh 'tar czf ' + buildFileName + ' config dal middleware mvc node_modules routes public startup utility app.js server.js manifest.json setprodenv.sh LICENSE'
+            }
+        }
+        stage('Code Scan') { 
+            steps { 
+                script {
+                    try {
+                        println 'scanning code for bug, non-standards, and vulunerabilities using SonarQube.' 
+                        withSonarQubeEnv('SonarQubeServer') { // It reads the authentication from Jenkins >> Configuration Systems
+                            sh "${scannerHome}/bin/sonar-scanner"
+                        }
+                    } catch(e) {
+                        println 'code scanning failed.'
+                    }
+                }
+            }
+        }
+        stage('Dockerize') { 
+            steps { 
+                println 'building docker image.' 
+                script {
+                    dockerImage = docker.build(imagename)
+                }
+            }
+        }
+        stage('Register') {
+            steps {
+                println 'uploading docker image to registries'
+                script {
+                    docker.withRegistry( registryURL, registryCredential ) {
+                        //dockerImage.push("$BUILD_NUMBER")
+                        dockerImage.push('latest')
+                    }
+                }
+                /*rtUpload (
+                    serverId: "jfrog-artifactory-server", // Obtain an Artifactory server instance, defined in Jenkins --> Manage:
+                    spec: """{
+                        "files": [
+                                {
+                                    "pattern": "node-northwind-app*.tar.gz",
+                                    "target": "npm-local/node-northwind-app-development-ci-pipeline/"
+                                }
+                            ]
+                        }"""
+                )
+                rtPublishBuildInfo (
+                    serverId: "jfrog-artifactory-server"
+                )*/
+            }
+        }
+        stage('Cleanup') { 
+            steps {
+                script {
+                    try {
+                        println 'removing images from build servers.' 
+                        sh 'rm -rf node-northwind-app*.tar.gz'
+                        sh "docker rmi $imagename:$BUILD_NUMBER"
+                        sh "docker rmi $imagename:latest"
+                    } catch (e) {
+                        println 'failed in clearing the build folder.'
+                    }
+                } 
+            }
+        }
+    }
+    post {
+        success {
+            emailext body: '<pre>${BUILD_LOG, maxLines=9999, escapeHtml=false}</pre>', 
+                    to: "${EMAIL_TO}", 
+                    mimeType: 'text/html',
+                    subject: 'Build succeeded in Jenkins: $PROJECT_NAME - #$BUILD_NUMBER'
+        }
+        failure {
+            emailext body: '<pre>${BUILD_LOG, maxLines=9999, escapeHtml=false}</pre>', 
+                    to: "${EMAIL_TO}", 
+                    mimeType: 'text/html',
+                    subject: 'Build failed in Jenkins: $PROJECT_NAME - #$BUILD_NUMBER'
+        }
+        unstable {
+            emailext body: '<pre>${BUILD_LOG, maxLines=9999, escapeHtml=false}</pre>', 
+                    to: "${EMAIL_TO}", 
+                    mimeType: 'text/html',
+                    subject: 'Unstable build in Jenkins: $PROJECT_NAME - #$BUILD_NUMBER'
+        }
+        /*changed {
+            emailext body: 'Check console output at $BUILD_URL to view the results.', 
+                    to: "${EMAIL_TO}", 
+                    mimeType: 'text/html',
+                    subject: 'Jenkins build is back to normal: $PROJECT_NAME - #$BUILD_NUMBER'
+        }*/
+    }
+}

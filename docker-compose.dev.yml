@@ -1,0 +1,27 @@
+version: "3"
+services:
+    web:
+        container_name: node-northwind-app-dev
+        restart: always
+        #build: ./
+        image: "bpm/node-northwind-app:latest"
+        ports:
+            - "8081:8080"
+        environment:
+            - MYNWAPP_ENV=development
+            - MYNWAPP_PORT=8080
+            - MYNWAPP_AuthTokenKey=authtoken1
+            - MYNWAPP_SessionKey=sessionkey1
+            - MYNWAPP_GEOCODER_API_KEY=AIzaSyAFN7pm1QA20ojk8CA2tQnXzOHB1ryRGtM
+            - MYNWAPP_ERRORLOG=true
+            - MYNWAPP_MONGO_URI='mongodb://mongo-db-dev:8082/northwind?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&ssl=false'
+        volumes:
+            - .:/app
+            #  - ./error.log:/usr/src/app/error.log
+    
+    mongo:
+        container_name: mongo-db-dev
+        image: mongo
+        ports:
+            - "8082:27017"
+            - "8083:28017"

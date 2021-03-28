@@ -1,11 +1,6 @@
 {
   "AppName": "NodeJS Northwind Application",
-  "errorLogging": true,
-  "requestLogging": true,
-  "restAPIBaseURL": "node-northwind-app.herokuapp.com",
-  "restAPIPort": "80",
-  "database": {
-    "connectionString": "mongodb+srv://sa:Passw0rd@cluster0.hxubs.gcp.mongodb.net/northwind",
+  "MONGO_DB": {
     "options": {
       "autoIndex": false,
       "poolSize": 10,
@@ -14,4 +9,5 @@
       "useUnifiedTopology": true
     }
   }
+
 }

@@ -12,6 +12,7 @@ const getapi = async function (req, res) {
 
 module.exports = {
   get: async (req, res) => {
+    console.log('call received')
     var retValue = "";
     var retCode = 200;
     try {
@@ -22,6 +23,7 @@ module.exports = {
       retValue = { message: ex.message, data: null };
       retCode = 400;
     }
+    console.log(retValue);
     res.status(retCode).send(retValue);
   },
 };

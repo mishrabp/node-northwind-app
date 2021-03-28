@@ -1,0 +1,92 @@
+pipeline { 
+    agent  {
+        label 'webserver-label'
+    }
+
+    environment {
+        EMAIL_TO = "bibhu.prasad.mishra@nttdata.com"
+        ////Docker Hub Registry Settings
+        imagename = "bibhupmishra/node-northwind-app"
+        registryCredential = "docker-hub-id" //defined in Jenknins >> Credentials
+        registryURL = 'https://registry.hub.docker.com';
+        
+        dockerImage = ''
+        containerName = "node-northwind-app"
+        htmlReport="<html><title>$containerName - Build Report</title><body><h1>$containerName - Build Report</h1><table><tr><td colspan=1></td></tr>##body##</table><br/><br/>Thank you <br/>-Yours Jenkins</body></html>"
+    }
+    options {
+        skipStagesAfterUnstable()
+        //timeout(time: 1, unit: 'HOURS')
+    }
+    stages {
+        stage('Preparation') {
+            steps {
+                script {
+                    try {
+                        println 'stop the running image and remove it.' 
+                        sh "docker stop $containerName"
+                        sh "docker rm $containerName"
+                        sh "docker rmi $imagename"
+                    } catch (e) {
+                        println 'failed in stopping the running image.'
+                    }
+                } 
+            }
+        }
+        stage('Download Build') { 
+            steps { 
+                println 'downloading the latest docker image.' 
+                script {
+                    docker.withRegistry( registryURL, registryCredential ) {
+                        dockerImage = docker.image(imagename + ':latest')
+                        dockerImage.pull()
+                    }
+                }
+            }
+        }
+        stage('Deploy') {
+            steps {
+                script {
+                    try {
+                        println 'deploy the docker image to the web server.' 
+                        sh "docker run -d --name $containerName -p 8081:8080 -e MYNWAPP_ENV=development -e MYNWAPP_PORT=8080 -e MYNWAPP_AuthTokenKey=authtoken1 -e MYNWAPP_SessionKey=sessionkey1 -e MYNWAPP_GEOCODER_API_KEY=AIzaSyAFN7pm1QA20ojk8CA2tQnXzOHB1ryRGtM -e MYNWAPP_ERRORLOG=true -e MYNWAPP_TRACKINGLOG=true -e MYNWAPP_MONGO_URI='mongodb://mongoadmin:passw0rd!@devopsmasterlinuxvm.centralus.cloudapp.azure.com:9003/northwind?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&ssl=false' $imagename:latest"
+                    } catch (e) {
+                        println 'failed in deploying on web server.'
+                    }
+                } 
+            }
+        }
+        stage('Notification') {
+            steps {
+                echo 'OK'
+                mail bcc: '', body: "$htmlReport", cc: '', from: 'noreply@jenkins.com', replyTo: '', subject: 'Jenkins Automation: node-northwind-app dev deploy', to: 'bibhup_mishra@yahoo.com'
+            }
+        }
+    }
+    post {
+        success {
+            emailext body: '<pre>${BUILD_LOG, maxLines=9999, escapeHtml=false}</pre>', 
+                    to: "${EMAIL_TO}", 
+                    mimeType: 'text/html',
+                    subject: 'Build succeeded in Jenkins: $PROJECT_NAME - #$BUILD_NUMBER'
+        }
+        failure {
+            emailext body: '<pre>${BUILD_LOG, maxLines=9999, escapeHtml=false}</pre>', 
+                    to: "${EMAIL_TO}", 
+                    mimeType: 'text/html',
+                    subject: 'Build failed in Jenkins: $PROJECT_NAME - #$BUILD_NUMBER'
+        }
+        unstable {
+            emailext body: '<pre>${BUILD_LOG, maxLines=9999, escapeHtml=false}</pre>', 
+                    to: "${EMAIL_TO}", 
+                    mimeType: 'text/html',
+                    subject: 'Unstable build in Jenkins: $PROJECT_NAME - #$BUILD_NUMBER'
+        }
+        /*changed {
+            emailext body: 'Check console output at $BUILD_URL to view the results.', 
+                    to: "${EMAIL_TO}", 
+                    mimeType: 'text/html',
+                    subject: 'Jenkins build is back to normal: $PROJECT_NAME - #$BUILD_NUMBER'
+        }*/
+    }
+}
