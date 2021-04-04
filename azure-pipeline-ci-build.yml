@@ -3,8 +3,10 @@
 # Add steps that analyze code, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
 
+# Pipelibe only builds the node app
+
 trigger:
-- main
+- development
 
 pool:
   name: "MyBuildAgents"
@@ -15,14 +17,6 @@ steps:
   inputs:
     versionSpec: '10.x'
   displayName: 'Install Node.js'
-
-- task: Docker@2
-  inputs:
-    containerRegistry: 'docker-azure-registry-private'
-    repository: 'node-northwind-app'
-    command: 'buildAndPush'
-    Dockerfile: '**/Dockerfile'
-    tags: 'latest'
 
 - script: |
     npm install
