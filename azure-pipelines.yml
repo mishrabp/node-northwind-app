@@ -16,6 +16,14 @@ steps:
     versionSpec: '10.x'
   displayName: 'Install Node.js'
 
+- task: Docker@2
+  inputs:
+    containerRegistry: 'docker-azure-registry-private'
+    repository: 'node-northwind-app'
+    command: 'buildAndPush'
+    Dockerfile: '**/Dockerfile'
+    tags: 'latest'
+
 - script: |
     npm install
     npm run build
