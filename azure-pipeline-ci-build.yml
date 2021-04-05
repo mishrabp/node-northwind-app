@@ -17,7 +17,16 @@ steps:
   inputs:
     versionSpec: '10.x'
   displayName: 'Install Node.js'
-
+- task: SonarQubePrepare@4
+  inputs:
+    SonarQube: 'sonarqube-mylocal-setup'
+    scannerMode: 'CLI'
+    configMode: 'file'
+- task: SonarQubeAnalyze@4
+- task: SonarQubePublish@4
+  inputs:
+    pollingTimeoutSec: '300'
+    
 - script: |
     npm install
     npm run build
