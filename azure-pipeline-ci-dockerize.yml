@@ -1,7 +1,7 @@
 # Node.js
 # Build a general Node.js project with npm.
 # Add steps that analyze code, save build artifacts, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript 
 
 # Pipelibe only build docker image and uploads to Azure Container Registry @113136 NTT Azure Accoount
 
