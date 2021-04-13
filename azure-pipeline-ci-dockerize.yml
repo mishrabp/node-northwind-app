@@ -51,4 +51,6 @@ steps:
     artifact: 'Docker Copy'
     publishLocation: 'pipeline'
   displayName: 'Publish for Docker Build'
-
+- task: PostBuildCleanup@3
+  inputs:
+    disableCertCheck: true
