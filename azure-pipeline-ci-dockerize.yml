@@ -10,11 +10,10 @@ trigger:
 
 #what to clean up before the job runs (outputs | resources | all)
 workspace:
-  clean: outputs  
+  clean: all  
 pool:
   name: "MyBuildAgents"
   vmImage: ubuntu-latest
-
 
 steps:
 - task: NodeTool@0
@@ -22,11 +21,12 @@ steps:
     versionSpec: '10.x'
   displayName: 'Install Node.js'
 
+#Build the NodeJS code which will be deployed to QA "Azure App Service"
+- script: |
+    npm install
+    npm run build
+  displayName: 'npm install and build'
 
-- task: PostBuildCleanup@3
-  inputs:
-    disableCertCheck: true
-    
 #- task: Docker@2
 #  displayName: Build Docker Image
 #  inputs:
