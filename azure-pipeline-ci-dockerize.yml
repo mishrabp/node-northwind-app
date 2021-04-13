@@ -45,4 +45,9 @@ steps:
     Dockerfile: '**/Dockerfile'
     tags: 'latest'
 
+- task: PublishPipelineArtifact@1
+  inputs:
+    targetPath: '$(Pipeline.Workspace)/*.yaml'
+    artifact: 'drop'
+    publishLocation: 'pipeline'
 
