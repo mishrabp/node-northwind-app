@@ -6,7 +6,7 @@
 # Pipelibe only build docker image and uploads to Azure Container Registry @113136 NTT Azure Accoount
 
 trigger:
-- development
+- main
 
 pool:
   name: "MyBuildAgents"
