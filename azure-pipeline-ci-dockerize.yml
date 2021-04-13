@@ -8,9 +8,13 @@
 trigger:
 - main
 
+#what to clean up before the job runs (outputs | resources | all)
+workspace:
+  clean: outputs  
 pool:
   name: "MyBuildAgents"
   vmImage: ubuntu-latest
+
 
 steps:
 - task: NodeTool@0
