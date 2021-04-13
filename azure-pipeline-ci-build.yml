@@ -18,6 +18,12 @@ steps:
     versionSpec: '10.x'
   displayName: 'Install Node.js'
 
+- task: WhiteSource@21
+  inputs:
+    cwd: '$(System.DefaultWorkingDirectory)'
+    projectName: 'node-northwind-app'
+   
+
 - script: |
     npm install
     npm run build
