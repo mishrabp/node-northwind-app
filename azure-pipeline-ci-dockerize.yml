@@ -40,7 +40,7 @@ steps:
   displayName: Push Docker Image to Azure Container Registry (Private)
   inputs:
     containerRegistry: 'docker-azure-registry-private'
-    repository: 'nodeexceldataimporter'
+    repository: 'node-northwind-app'
     command: 'buildAndPush'
     Dockerfile: '**/Dockerfile'
     tags: 'latest'
