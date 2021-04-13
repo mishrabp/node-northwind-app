@@ -18,6 +18,11 @@ steps:
     versionSpec: '10.x'
   displayName: 'Install Node.js'
 
+
+- task: PostBuildCleanup@3
+  inputs:
+    disableCertCheck: true
+    
 #- task: Docker@2
 #  displayName: Build Docker Image
 #  inputs:
@@ -51,6 +56,3 @@ steps:
     artifact: 'Docker Copy'
     publishLocation: 'pipeline'
   displayName: 'Publish for Docker Build'
-- task: PostBuildCleanup@3
-  inputs:
-    disableCertCheck: true
