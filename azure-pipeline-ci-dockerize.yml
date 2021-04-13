@@ -47,7 +47,7 @@ steps:
 
 - task: PublishPipelineArtifact@1
   inputs:
-    targetPath: '$(Pipeline.Workspace)/*.yaml'
+    targetPath: '$(Pipeline.Workspace)'
     artifact: 'drop'
     publishLocation: 'pipeline'
 
