@@ -32,6 +32,6 @@ steps:
 - task: PublishPipelineArtifact@1
   inputs:
     targetPath: '$(Pipeline.Workspace)'
-    artifact: 'drop'
+    artifact: 'NPM Build Copy'
     publishLocation: 'pipeline'
   displayName: 'Publish npm build for App Service Deployment'
