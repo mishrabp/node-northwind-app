@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: node-northwind-deployment
+  labels: 
+    app: node-northwind-app
+#specification for deployment
+spec:
+  replicas: 2 #no of pod replicas needed.
+  selector:
+    matchLabels:
+      app: node-northwind-app
+  #template applies to Pod
+  template: 
+    metadata:
+      labels:
+        app: node-northwind-app
+    #specification is the blueprint of a Pod
+    spec:
+      containers:   
+      - name: node-northwind-app
+        image: bpm2021acr.azurecr.io/node-northwind-app
+        imagePullPolicy: IfNotPresent
+        env: 
+        - name: MYNWAPP_MONGO_URI
+          value: 'mongodb://mongoadmin:passw0rd!@devopsmasterlinuxvm.centralus.cloudapp.azure.com:9003/northwind?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&ssl=false'
+        ports:
+        - containerPort: 8080    
+      imagePullSecrets:
+      - name: acr-secret-bibhu 
+
+---
+apiVersion: v1
+kind: Service
+metadata: 
+  name: node-northwind--service  
+spec:
+  type: LoadBalancer
+  selector: 
+    app: node-northwind-app
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8080
