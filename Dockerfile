@@ -1,6 +1,6 @@
 # Specifies which OS to use. Here it is unix OS pre-installed with node v-12
 FROM ubuntu:latest
-LABEL developer=bibhup_mishra@yahoo.com
+LABEL developer=bibhup_mishra@yahoo.com 
 RUN apt-get update -y && \
     apt-get install curl -y && \
     curl -sL https://deb.nodesource.com/setup_10.2  && \
