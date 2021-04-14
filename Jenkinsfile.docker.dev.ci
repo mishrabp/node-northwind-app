@@ -109,7 +109,6 @@ pipeline {
         }
     }
     post {
-        when { anyOf { branch 'development'} }
         success {
             emailext body: '<pre>${BUILD_LOG, maxLines=9999, escapeHtml=false}</pre>', 
                     to: "${EMAIL_TO}", 
