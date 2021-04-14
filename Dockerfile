@@ -9,7 +9,7 @@ RUN apt-get update -y && \
     # create folder <app> inside the container image
     mkdir -p /app 
 
-# Set working directory within the image. Paths will be relative this WORKDIR.
+# Set working directory within the image. Paths will be relative this WORKDIR. 
 WORKDIR /app
 
 # copy source files from host computer to container
