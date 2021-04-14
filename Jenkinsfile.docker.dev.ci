@@ -25,14 +25,16 @@ pipeline {
         //timeout(time: 1, unit: 'HOURS')
     }
     stages {
-        stage('Preparation') { 
+        stage('Preparation') {
+            when { anyOf { branch 'development'} }
             steps { 
                 println 'checking out code from github.'
                 sh 'rm -rf node-northwind-app*.tar.gz'
                 git branch: 'development', url: 'https://github.com/mishrabp/node-northwind-app.git' 
             }
         }
-        stage('Build') { 
+        stage('Build') {
+            when { anyOf { branch 'development'} }
             steps { 
                 println 'building code.' 
                 sh 'npm install'
@@ -41,6 +43,7 @@ pipeline {
             }
         }
         stage('Code Scan') { 
+            when { anyOf { branch 'development'} }
             steps { 
                 script {
                     try {
@@ -55,6 +58,7 @@ pipeline {
             }
         }
         stage('Dockerize') { 
+            when { anyOf { branch 'development'} }
             steps { 
                 println 'building docker image.' 
                 script {
@@ -63,6 +67,7 @@ pipeline {
             }
         }
         stage('Register') {
+            when { anyOf { branch 'development'} }
             steps {
                 println 'uploading docker image to registries'
                 script {
@@ -87,7 +92,8 @@ pipeline {
                 )*/
             }
         }
-        stage('Cleanup') { 
+        stage('Cleanup') {
+            when { anyOf { branch 'development'} }
             steps {
                 script {
                     try {
@@ -103,6 +109,7 @@ pipeline {
         }
     }
     post {
+        when { anyOf { branch 'development'} }
         success {
             emailext body: '<pre>${BUILD_LOG, maxLines=9999, escapeHtml=false}</pre>', 
                     to: "${EMAIL_TO}", 
