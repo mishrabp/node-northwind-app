@@ -57,6 +57,6 @@ steps:
 - task: PublishPipelineArtifact@1
   inputs:
     targetPath: '$(Pipeline.Workspace)'
-    artifact: 'Docker Copy'
+    artifact: 'Drop'
     publishLocation: 'pipeline'
   displayName: 'Publish for Docker Build'
