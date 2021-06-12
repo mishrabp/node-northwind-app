@@ -36,7 +36,7 @@ node {
     }
     stage('Publish Build to jFrog Artifactory') {
         //sh 'npm publish'
-        rtUpload (
+        /*rtUpload (
             serverId: "jfrog-artifactory-server", // Obtain an Artifactory server instance, defined in Jenkins --> Manage:
             spec: """{
                 "files": [
@@ -46,11 +46,11 @@ node {
                         }
                     ]
                 }"""
-        )
+        )*/
     }
     stage ('Publish Build Info to jFrog Artifactory') {
-        rtPublishBuildInfo (
+        /*rtPublishBuildInfo (
             serverId: "jfrog-artifactory-server"
-        )
+        )*/
     }
 }
