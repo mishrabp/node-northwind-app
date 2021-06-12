@@ -16,9 +16,6 @@
   "engines": {
     "node": "12.21.0"
   },
-  "publishConfig": {
-    "registry": "https://devopsbpm.jfrog.io/artifactory/api/npm/npm/"
-  },
   "keywords": [],
   "author": "",
   "license": "ISC",
