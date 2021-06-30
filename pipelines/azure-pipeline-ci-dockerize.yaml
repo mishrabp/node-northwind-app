@@ -8,13 +8,7 @@
 trigger:
 - main
 
-variables:
-- group: PipelineVariableGroup #its a group of variables defined in the Pipeline Library in Azure DevOps. This line of code copy them over here.
-
-
 #what to clean up before the job runs (outputs | resources | all)
-workspace:
-  clean: all  
 pool:
   name: "MyBuildAgents"
   vmImage: ubuntu-latest
