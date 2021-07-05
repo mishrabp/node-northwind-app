@@ -13,8 +13,8 @@ RUN apt-get update -y && \
 WORKDIR /app
 
 # copy source files from host computer to container
-COPY ["../../package.json", "../../package-lock.json*", "./"]
-COPY ../../. .
+COPY ["package.json", "package-lock.json*", "./"]
+COPY . .
 
 # Install dependencies and build app
 RUN npm config set registry http://registry.npmjs.org/ && \
