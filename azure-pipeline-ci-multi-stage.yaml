@@ -29,10 +29,10 @@ stages:
         versionSpec: '10.x'
       displayName: 'Install NodeJS Runtime'
     #Build the NodeJS code which will be deployed to QA "Azure App Service"
-    - script: |
-        npm install
-        npm run build
-      displayName: 'npm install and build'
+#    - script: |
+#        npm install
+#        npm run build
+#      displayName: 'npm install and build'
     - task: CopyFiles@2
       displayName: 'Copy application code'
       inputs:
