@@ -47,7 +47,7 @@ stages:
         TargetFolder: '$(build.artifactstagingdirectory)/terraform'
     - task: ArchiveFiles@2
       inputs:
-        rootFolderOrFile: '$(build.artifactstagingdirectory)'
+        rootFolderOrFile: '$(build.artifactstagingdirectory)/www'
         includeRootFolder: false        
     - task: PublishPipelineArtifact@1
       displayName: 'Publish Artifacts / Binaries to drop folder'
