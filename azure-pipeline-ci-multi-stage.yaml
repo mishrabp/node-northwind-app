@@ -39,6 +39,12 @@ stages:
         preserveTimestamp: true
         cleanTargetFolder: true  
         sourceFolder: '$(System.DefaultWorkingDirectory)'
+        contents: |
+          **/*
+          !.git/**/*
+          !.github/**/*
+          !terraform/**/*
+          !**/*.yaml
         targetFolder: '$(build.artifactstagingdirectory)/www'
     - task: CopyFiles@2
       displayName: 'Copy Terraforms to: $(build.artifactstagingdirectory)/terraform'
