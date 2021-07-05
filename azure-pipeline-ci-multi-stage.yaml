@@ -29,10 +29,10 @@ stages:
         versionSpec: '10.x'
       displayName: 'Install NodeJS Runtime'
     #Build the NodeJS code which will be deployed to QA "Azure App Service"
-#    - script: |
-#        npm install
-#        npm run build
-#      displayName: 'npm install and build'
+    - script: |
+        npm install
+        npm run build
+      displayName: 'npm install and build'
     - task: CopyFiles@2
       displayName: 'Copy application code to www folder'
       inputs:
@@ -57,6 +57,7 @@ stages:
           !**/Jenkins*.*
           !**/babel*.*
           !**/LICENSE
+          !**/Dockerfile
         targetFolder: '$(build.artifactstagingdirectory)/www'
     - task: CopyFiles@2
       displayName: 'Copy terrraform files to terraform folder'
@@ -74,4 +75,35 @@ stages:
         targetPath: '$(build.artifactstagingdirectory)'
         artifact: 'drop'
         publishLocation: 'pipeline'
+
+- stage: Infrastructure
+  displayName: 'Setup Infrastrucure in Azure'
+  pool:
+    name: "MyBuildAgents"
+    vmImage: ubuntu-latest
+    demand: node.js
+  dependsOn: Build
+  jobs:
+  - template: azure-setup-appservice.yaml
+    parameters:
+      subscription: $(subscription)
+      terraformstoragerg: $(terraformStorageRG)
+      terraformstorageaccount: $(terraformStorageAccount)
+      terraformcontainer: $(terraformContainer)
+
+- stage: QA
+  displayName: 'Deploy Code to QA Web App Service'
+  pool:
+    name: "MyBuildAgents"
+    vmImage: ubuntu-latest
+    demand: node.js
+  dependsOn: Infrastructure
+  variables: 
+    Environment: QA
+  jobs:
+  - template: azure-deploy-appservice-template.yaml
+    parameters:
+      environment: ${{ variables.environment }} 
+      webAppName: '$(appServicePrefix)-qa'
+      subscription: $(subscription)
 
