@@ -12,6 +12,7 @@ trigger:
 pool:
   name: "MyBuildAgents"
   vmImage: ubuntu-latest
+  demand: node.js
 
 variables:
 - group: PipelineVariableGroup
