@@ -39,14 +39,13 @@ stages:
         preserveTimestamp: true
         cleanTargetFolder: true  
         sourceFolder: '$(System.DefaultWorkingDirectory)'
-        contents: |
+#        contents: |
           **/*
           !.git/**/*
           !.github/**/*
           !terraform/**/*
           !dal/csvdata/**/*
           !ssl/**/*
-          !**/*.yaml
           !**/*.sh
           !**/*.cmd
           !**/*.properties
@@ -57,7 +56,6 @@ stages:
           !**/Jenkins*.*
           !**/babel*.*
           !**/LICENSE
-          !**/Dockerfile
         targetFolder: '$(build.artifactstagingdirectory)/www'
     - task: CopyFiles@2
       displayName: 'Copy terrraform files to terraform folder'
@@ -107,3 +105,46 @@ stages:
       webAppName: '$(appServicePrefix)-qa'
       subscription: $(subscription)
 
+- stage: Production
+  displayName: 'Deploy Code to Production Kubernetes Cluster'
+  pool:
+    name: "MyBuildAgents"
+    vmImage: ubuntu-latest
+    demand: node.js
+  dependsOn: QA
+  variables: 
+    Environment: Production
+  jobs:
+  - job: Dockerize
+    displayName: 'Build Docker Image' 
+    steps:
+    - task: Docker@2
+      displayName: 'Push Docker Image to Azure Container Registry (Private) on 113136'
+      inputs:
+        containerRegistry: 'docker-azure-registry-private'
+        repository: 'node-northwind-app'
+        command: 'buildAndPush'
+        Dockerfile: '$(System.DefaultWorkingDirectory)/www/Dockerfile'
+        tags: 'latest'
+#    - task: Docker@2
+#      displayName: 'Build Docker Image'
+#      inputs:
+#        command: 'build'
+#        Dockerfile: '**/Dockerfile'
+#        tags: 'latest'
+#    - task: Docker@2
+#      displayName: 'Login to Docker Hub (Public)'
+#      inputs:
+#        command: login
+#        containerRegistry: 'docker-hub-registry-public'
+#    - task: Docker@2
+#      displayName: 'Push Docker Image to Docker Hub (Public)'
+#      inputs:
+#        containerRegistry: 'docker-hub-registry-public'
+#        repository: 'bibhupmishra/node-northwind-app'
+#        command: 'push'
+    - task: KubernetesManifest@0
+      displayName: 'Deploy to K8 Cluster on 113136 Subscription'
+      inputs:
+        kubernetesServiceConnection: '113136-bpm-cowbird-aks'
+        manifests: '$(System.DefaultWorkingDirectory)/www/k8-deployment-azure-113136.yaml'
