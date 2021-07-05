@@ -1,0 +1,30 @@
+# deploy-appservice-template.yml
+# It deploys code into app services on Azure
+
+parameters:
+- name: environment # don't pass run-time variables
+- name: webAppName
+- name: subscription
+- name: artifactName
+  default: drop
+
+jobs:
+- deployment: DeployAppService
+  environment: ${{ parameters.environment }}
+  strategy: 
+    runOnce:
+      deploy:
+        steps:
+        - task: DownloadPipelineArtifact@2
+          inputs:
+            buildType: 'current'
+            downloadType: 'single'
+            artifactName: ${{ parameters.artifactName }}
+            targetPath: '$(System.DefaultWorkingDirectory)'
+        - task: AzureRmWebAppDeployment@4
+          inputs:
+            ConnectionType: 'AzureRM'
+            azureSubscription: ${{ parameters.subscription }}
+            appType: 'webApp'
+            WebAppName: ${{ parameters.webAppName }}
+            packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
