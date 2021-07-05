@@ -59,6 +59,7 @@ stages:
 - stage: QA
   displayName: 'Deploy Code to QA Web App Service'
   dependsOn: Infrastructure
+  timeoutInMinutes: 720 # job times out in .5 days
   variables: 
     Environment: QA
   jobs:

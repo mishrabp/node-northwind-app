@@ -15,6 +15,13 @@ jobs:
     runOnce:
       deploy:
         steps:
+        - task: ManualValidation@0
+          timeoutInMinutes: 180 # task times out in 3 Hours
+          inputs:
+            notifyUsers: |
+              bibhup_mishra@msn.com
+            instructions: 'Please validate the build configuration and resume'
+            onTimeout: 'reject'
         - task: DownloadPipelineArtifact@2
           inputs:
             buildType: 'current'

@@ -51,7 +51,7 @@ resource "azurerm_app_service_plan" "my" {
     resource_group_name = azurerm_resource_group.my.name
 
     kind = "Linux"
-    reserved = false
+    reserved = true
 
     sku {
         tier = "Basic"
