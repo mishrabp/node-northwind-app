@@ -107,7 +107,7 @@ stages:
         containerRegistry: 'docker-azure-registry-private'
         repository: 'node-northwind-app'
         command: 'buildAndPush'
-        Dockerfile: '$(System.DefaultWorkingDirectory)/www/Dockerfile'
+        Dockerfile: '$(System.DefaultWorkingDirectory)/**/Dockerfile'
         tags: 'latest'
 #    - task: Docker@2
 #      displayName: 'Build Docker Image'
@@ -130,4 +130,4 @@ stages:
       displayName: 'Deploy to K8 Cluster on 113136 Subscription'
       inputs:
         kubernetesServiceConnection: '113136-bpm-cowbird-aks'
-        manifests: '$(System.DefaultWorkingDirectory)/www/k8-deployment-azure-113136.yaml'
+        manifests: '$(System.DefaultWorkingDirectory)/**/k8-deployment-azure-113136.yaml'
