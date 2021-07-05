@@ -39,23 +39,6 @@ stages:
         preserveTimestamp: true
         cleanTargetFolder: true  
         sourceFolder: '$(System.DefaultWorkingDirectory)'
-#        contents: |
-          **/*
-          !.git/**/*
-          !.github/**/*
-          !terraform/**/*
-          !dal/csvdata/**/*
-          !ssl/**/*
-          !**/*.sh
-          !**/*.cmd
-          !**/*.properties
-          !**/.dockerignore
-          !**/gulpfile.js
-          !**/tailwind.config.js
-          !**/.gitignore
-          !**/Jenkins*.*
-          !**/babel*.*
-          !**/LICENSE
         targetFolder: '$(build.artifactstagingdirectory)/www'
     - task: CopyFiles@2
       displayName: 'Copy terrraform files to terraform folder'

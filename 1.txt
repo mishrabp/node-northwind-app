@@ -31,17 +31,20 @@
 
 
 
-        contents: |
-          **\config\*.*
-          **\dal\*.*
-          **\middleware\*.*
-          **\mvc\*.*
-          **\node_modules\*.*
-          **\routes\*.*
-          **\src\*.*
-          **\startup\*.*
-          **\terraform\*.*
-          **\utility\*.*
-          **\*.js
-          package.json
-          manifest.json
+#        contents: |
+          **/*
+          !.git/**/*
+          !.github/**/*
+          !terraform/**/*
+          !dal/csvdata/**/*
+          !ssl/**/*
+          !**/*.sh
+          !**/*.cmd
+          !**/*.properties
+          !**/.dockerignore
+          !**/gulpfile.js
+          !**/tailwind.config.js
+          !**/.gitignore
+          !**/Jenkins*.*
+          !**/babel*.*
+          !**/LICENSE
