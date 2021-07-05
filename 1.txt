@@ -29,3 +29,19 @@
       webAppName: '$(appServicePrefix)-qa'
       subscription: $(subscription)
 
+
+
+        contents: |
+          **\config\*.*
+          **\dal\*.*
+          **\middleware\*.*
+          **\mvc\*.*
+          **\node_modules\*.*
+          **\routes\*.*
+          **\src\*.*
+          **\startup\*.*
+          **\terraform\*.*
+          **\utility\*.*
+          **\*.js
+          package.json
+          manifest.json

@@ -39,20 +39,6 @@ stages:
         preserveTimestamp: true
         cleanTargetFolder: true  
         sourceFolder: '$(System.DefaultWorkingDirectory)'
-        contents: |
-          **\config\*.*
-          **\dal\*.*
-          **\middleware\*.*
-          **\mvc\*.*
-          **\node_modules\*.*
-          **\routes\*.*
-          **\src\*.*
-          **\startup\*.*
-          **\terraform\*.*
-          **\utility\*.*
-          **\*.js
-          package.json
-          manifest.json
         targetFolder: '$(build.artifactstagingdirectory)/www'
     - task: CopyFiles@2
       displayName: 'Copy Terraforms to: $(build.artifactstagingdirectory)/terraform'
