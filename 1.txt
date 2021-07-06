@@ -77,3 +77,14 @@
       webAppName: '$(appServicePrefix)-qa'
       subscription: $(subscription)
 
+
+
+
+
+          - task: KubernetesManifest@0
+            displayName: 'Deploy to K8 Cluster on 113136 Subscription'
+            inputs:
+              action: 'deploy'
+              kubernetesServiceConnection: '113136-bpm-cowbird-aks'
+              namespace: 'default'
+              manifests: '$(System.DefaultWorkingDirectory)/drop/www/k8-deployment-azure-113136.yaml'
