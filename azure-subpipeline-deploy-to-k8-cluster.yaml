@@ -18,42 +18,24 @@ jobs:
       deploy:
         steps:
         - download: none
-      #    - task: Docker@2
-      #      displayName: 'Build Docker Image'
-      #      inputs:
-      #        command: 'build'
-      #        Dockerfile: '**/Dockerfile'
-      #        tags: 'latest'
-      #    - task: Docker@2
-      #      displayName: 'Login to Docker Hub (Public)'
-      #      inputs:
-      #        command: login
-      #        containerRegistry: 'docker-hub-registry-public'
-      #    - task: Docker@2
-      #      displayName: 'Push Docker Image to Docker Hub (Public)'
-      #      inputs:
-      #        containerRegistry: 'docker-hub-registry-public'
-      #        repository: 'bibhupmishra/node-northwind-app'
-      #        command: 'push'
+        - task: KubectlInstaller@0
+          inputs:
+            kubectlVersion: 'latest'
 
-          - task: KubectlInstaller@0
-            inputs:
-              kubectlVersion: 'latest'
-
-          - task: Kubernetes@1
-            inputs:
-              connectionType: 'Azure Resource Manager'
-              azureSubscriptionEndpoint: 'Visual Studio Subscription - 113136'
-              azureResourceGroup: 'bpm-cowbird-rg'
-              kubernetesCluster: 'bpm-cowbird-aks'
-              useClusterAdmin: true
-              namespace: 'default'
-              command: 'apply'
-              useConfigurationFile: true
-              configuration: '$(Pipeline.Workspace)/drop/www/azure-k8-deployment-config.yaml'
-              secretType: 'dockerRegistry'
-              containerRegistryType: 'Azure Container Registry'
-              azureSubscriptionEndpointForSecrets: 'Visual Studio Subscription - 113136'
-              azureContainerRegistry: 'bpm2021acr.azurecr.io'
-              secretName: 'acr-secret-bibhu'
+        - task: Kubernetes@1
+          inputs:
+            connectionType: 'Azure Resource Manager'
+            azureSubscriptionEndpoint: 'Visual Studio Subscription - 113136'
+            azureResourceGroup: 'bpm-cowbird-rg'
+            kubernetesCluster: 'bpm-cowbird-aks'
+            useClusterAdmin: true
+            namespace: 'default'
+            command: 'apply'
+            useConfigurationFile: true
+            configuration: '$(Pipeline.Workspace)/drop/www/azure-k8-deployment-config.yaml'
+            secretType: 'dockerRegistry'
+            containerRegistryType: 'Azure Container Registry'
+            azureSubscriptionEndpointForSecrets: 'Visual Studio Subscription - 113136'
+            azureContainerRegistry: 'bpm2021acr.azurecr.io'
+            secretName: 'acr-secret-bibhu'
 
