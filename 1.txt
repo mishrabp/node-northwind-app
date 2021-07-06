@@ -88,3 +88,39 @@
               kubernetesServiceConnection: '113136-bpm-cowbird-aks'
               namespace: 'default'
               manifests: '$(System.DefaultWorkingDirectory)/drop/www/k8-deployment-azure-113136.yaml'
+
+
+variables:
+- name: k8sNamespace
+  value: 'default'
+- name: dockerRegistryServiceConnection
+  value: 'docker-azure-registry-private'
+- name: containerRegistry
+  value: 'bpm2021acr.azurecr.io'
+- name: imageRepository
+  value: 'node-northwind-app'
+- name: tag
+  value: 'latest'
+- name: imagePullSecret
+  value: ''
+
+          - task: KubernetesManifest@0
+            displayName: Create imagePullSecret
+            inputs:
+              action: createSecret
+              secretName: $(imagePullSecret)
+              namespace: $(k8sNamespace)
+              dockerRegistryEndpoint: $(dockerRegistryServiceConnection)
+
+          - task: KubernetesManifest@0
+            displayName: Deploy to Kubernetes cluster
+            inputs:
+              action: deploy
+              namespace: $(k8sNamespace)
+              manifests: |
+                $(System.DefaultWorkingDirectory)/drop/www/k8-deployment-azure-113136.yaml
+              imagePullSecrets: |
+                $(imagePullSecret)
+              containers: |
+                $(containerRegistry)/$(imageRepository):$(tag)
+
