@@ -17,7 +17,7 @@ jobs:
     runOnce:
       deploy:
         steps:
-        - download: none
+#        - download: none
         - task: KubectlInstaller@0
           inputs:
             kubectlVersion: 'latest'
