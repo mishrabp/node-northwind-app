@@ -18,44 +18,6 @@ variables:
 - group: PipelineVariableGroup
 
 stages:
-- stage: Build
-  displayName: "Compile Code"
-  jobs:
-  - job: Compile
-    displayName: 'Compile NPM Code' 
-    steps:
-    - task: NodeTool@0
-      inputs:
-        versionSpec: '10.x'
-      displayName: 'Install NodeJS Runtime'
-    #Build the NodeJS code which will be deployed to QA "Azure App Service"
-#    - script: |
-#        npm install
-#        npm run build
-#      displayName: 'npm install and build'
-    - task: CopyFiles@2
-      displayName: 'Copy application code to www folder'
-      inputs:
-        preserveTimestamp: true
-        cleanTargetFolder: true  
-        sourceFolder: '$(System.DefaultWorkingDirectory)'
-        targetFolder: '$(build.artifactstagingdirectory)/www'
-    - task: CopyFiles@2
-      displayName: 'Copy terrraform files to terraform folder'
-      inputs:
-        SourceFolder: terraform
-        TargetFolder: '$(build.artifactstagingdirectory)/terraform'
-#    - task: ArchiveFiles@2
-#      displayName: 'Create a deployable zip file from the www folder'
-#      inputs:
-#        rootFolderOrFile: '$(build.artifactstagingdirectory)/www'
-#        includeRootFolder: false        
-    - task: PublishPipelineArtifact@1
-      displayName: 'Publish Artifacts & Binaries to the drop folder'
-      inputs:
-        targetPath: '$(build.artifactstagingdirectory)'
-        artifact: 'drop'
-        publishLocation: 'pipeline'
 
 - stage: Production
   displayName: 'Deploy Code to Production Kubernetes Cluster'
@@ -63,7 +25,7 @@ stages:
     name: "MyBuildAgents"
     vmImage: ubuntu-latest
     demand: node.js
-  dependsOn: Build
+#  dependsOn: Build
   variables: 
     Environment: Production
   jobs:
