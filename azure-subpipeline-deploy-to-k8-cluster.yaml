@@ -39,6 +39,7 @@ jobs:
             displayName: Create imagePullSecret
             inputs:
               action: createSecret
+              kubernetesServiceConnection: '113136-bpm-cowbird-aks'
               secretName: $(imagePullSecret)
               namespace: default
               dockerRegistryEndpoint: docker-azure-registry-private
@@ -47,6 +48,7 @@ jobs:
             displayName: Deploy to Kubernetes cluster
             inputs:
               action: deploy
+              kubernetesServiceConnection: '113136-bpm-cowbird-aks'
               namespace: default
               manifests: |
                 $(System.DefaultWorkingDirectory)/drop/www/k8-deployment-azure-113136.yaml
