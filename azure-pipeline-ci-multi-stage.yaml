@@ -19,6 +19,32 @@ variables:
 
 stages:
 
+- stage: Build
+  displayName: "Compile Code"
+  jobs:
+  - job: Compile
+    displayName: 'Compile NPM Code' 
+    steps:
+    - task: CopyFiles@2
+      displayName: 'Copy application code to www folder'
+      inputs:
+        preserveTimestamp: true
+        cleanTargetFolder: true  
+        sourceFolder: '$(System.DefaultWorkingDirectory)'
+        targetFolder: '$(build.artifactstagingdirectory)/www'
+    - task: CopyFiles@2
+      displayName: 'Copy terrraform files to terraform folder'
+      inputs:
+        SourceFolder: terraform
+        TargetFolder: '$(build.artifactstagingdirectory)/terraform'
+    - task: PublishPipelineArtifact@1
+      displayName: 'Publish Artifacts & Binaries to the drop folder'
+      inputs:
+        targetPath: '$(build.artifactstagingdirectory)'
+        artifact: 'drop'
+        publishLocation: 'pipeline'
+
+
 - stage: Infrastructure
   displayName: 'Setup Infrastrucure in Azure'
   pool:
