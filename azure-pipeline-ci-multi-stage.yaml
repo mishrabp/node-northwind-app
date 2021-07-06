@@ -19,6 +19,29 @@ variables:
 
 stages:
 
+- stage: Build
+  displayName: "Compile Code"
+  jobs:
+  - job: Compile
+    displayName: 'Compile NPM Code' 
+    steps:
+    #Build the NodeJS code which will be deployed to QA "Azure App Service"
+    - task: CopyFiles@2
+      displayName: 'Copy application code to www folder'
+      inputs:
+        preserveTimestamp: true
+        cleanTargetFolder: true  
+        sourceFolder: '$(System.DefaultWorkingDirectory)'
+        targetFolder: '$(build.artifactstagingdirectory)/www'
+    - task: PublishPipelineArtifact@1
+      displayName: 'Publish Artifacts & Binaries to the drop folder'
+      inputs:
+        targetPath: '$(build.artifactstagingdirectory)'
+        artifact: 'drop'
+        publishLocation: 'pipeline'
+
+
+
 - stage: Production
   displayName: 'Deploy Code to Production Kubernetes Cluster'
   pool:
