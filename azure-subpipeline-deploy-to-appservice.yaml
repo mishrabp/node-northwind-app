@@ -6,7 +6,7 @@ parameters:
 - name: webAppName
 - name: subscription
 - name: artifactName
-  default: drop
+  default: wwwzip
 
 jobs:
 - deployment: DeployAppService
@@ -20,7 +20,6 @@ jobs:
             buildType: 'current'
             downloadType: 'single'
             artifactName: ${{ parameters.artifactName }}
-            pattern: drop/*.zip
             targetPath: '$(System.DefaultWorkingDirectory)'
         - task: AzureRmWebAppDeployment@4
           inputs:

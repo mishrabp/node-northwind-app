@@ -57,6 +57,12 @@ stages:
         targetPath: '$(build.artifactstagingdirectory)'
         artifact: 'drop'
         publishLocation: 'pipeline'
+    - task: PublishPipelineArtifact@1
+      displayName: 'Publish Artifacts & Binaries to the drop folder'
+      inputs:
+        targetPath: '$(build.artifactstagingdirectory)/*.zip'
+        artifact: 'wwwzip'
+        publishLocation: 'pipeline'
 
 
 - stage: QA
