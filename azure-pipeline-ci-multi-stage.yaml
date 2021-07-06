@@ -57,6 +57,7 @@ stages:
         targetPath: '$(build.artifactstagingdirectory)'
         artifact: 'drop'
         publishLocation: 'pipeline'
+
   -job: Dockerize
     - task: Docker@2
     displayName: 'Build Docker Image & Push Docker Image to Azure Container Registry (Private) on 113136'
@@ -66,6 +67,25 @@ stages:
       command: 'buildAndPush'
       Dockerfile: '$(System.DefaultWorkingDirectory)/**/Dockerfile'
       tags: 'latest'
+
+  #-job: Dockerize2
+      #    - task: Docker@2
+      #      displayName: 'Build Docker Image'
+      #      inputs:
+      #        command: 'build'
+      #        Dockerfile: '**/Dockerfile'
+      #        tags: 'latest'
+      #    - task: Docker@2
+      #      displayName: 'Login to Docker Hub (Public)'
+      #      inputs:
+      #        command: login
+      #        containerRegistry: 'docker-hub-registry-public'
+      #    - task: Docker@2
+      #      displayName: 'Push Docker Image to Docker Hub (Public)'
+      #      inputs:
+      #        containerRegistry: 'docker-hub-registry-public'
+      #        repository: 'bibhupmishra/node-northwind-app'
+      #        command: 'push'
 
 - stage: Infrastructure
   displayName: 'Setup Infrastrucure in Azure'
