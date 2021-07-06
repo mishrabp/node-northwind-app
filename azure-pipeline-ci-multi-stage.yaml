@@ -57,6 +57,30 @@ stages:
         targetPath: '$(build.artifactstagingdirectory)'
         artifact: 'drop'
         publishLocation: 'pipeline'
+  -job: Dockerize
+    - task: Docker@2
+    displayName: 'Build Docker Image & Push Docker Image to Azure Container Registry (Private) on 113136'
+    inputs:
+      containerRegistry: 'docker-azure-registry-private'
+      repository: 'node-northwind-app'
+      command: 'buildAndPush'
+      Dockerfile: '$(System.DefaultWorkingDirectory)/**/Dockerfile'
+      tags: 'latest'
+
+- stage: Infrastructure
+  displayName: 'Setup Infrastrucure in Azure'
+  pool:
+    name: "MyBuildAgents"
+    vmImage: ubuntu-latest
+    demand: node.js
+  dependsOn: Build
+  jobs:
+  - template: azure-subpipeline-setup-appservice.yaml
+    parameters:
+      subscription: $(subscription)
+      terraformstoragerg: $(terraformStorageRG)
+      terraformstorageaccount: $(terraformStorageAccount)
+      terraformcontainer: $(terraformContainer)
 
 
 - stage: QA
@@ -65,7 +89,7 @@ stages:
     name: "MyBuildAgents"
     vmImage: ubuntu-latest
     demand: node.js
-  dependsOn: Build
+  dependsOn: Infrastructure
   variables: 
     Environment: QA
   jobs:
@@ -81,7 +105,7 @@ stages:
     name: "MyBuildAgents"
     vmImage: ubuntu-latest
     demand: node.js
-#  dependsOn: QA
+  dependsOn: QA
   variables: 
     Environment: Production
   jobs:
