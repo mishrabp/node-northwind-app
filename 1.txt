@@ -1,50 +1,23 @@
-- stage: Build
-  displayName: "Compile Code"
-  jobs:
-  - job: Compile
-    displayName: 'Compile NPM Code' 
-    steps:
-    - task: NodeTool@0
-      inputs:
-        versionSpec: '10.x'
-      displayName: 'Install NodeJS Runtime'
-    #Build the NodeJS code which will be deployed to QA "Azure App Service"
-    - script: |
-        npm install
-        npm run build
-      displayName: 'npm install and build'
-    - task: CopyFiles@2
-      displayName: 'Copy application code to www folder'
-      inputs:
-        preserveTimestamp: true
-        cleanTargetFolder: true  
-        sourceFolder: '$(System.DefaultWorkingDirectory)'
-        targetFolder: '$(build.artifactstagingdirectory)/www'
-    - task: CopyFiles@2
-      displayName: 'Copy terrraform files to terraform folder'
-      inputs:
-        SourceFolder: terraform
-        TargetFolder: '$(build.artifactstagingdirectory)/terraform'
-    - task: ArchiveFiles@2
-      displayName: 'Create a deployable zip file from the www folder'
-      inputs:
-        rootFolderOrFile: '$(build.artifactstagingdirectory)/www'
-        includeRootFolder: false        
-    - task: PublishPipelineArtifact@1
-      displayName: 'Publish Artifacts & Binaries to the drop folder'
-      inputs:
-        targetPath: '$(build.artifactstagingdirectory)'
-        artifact: 'drop'
-        publishLocation: 'pipeline'
-  -job: Dockerize
-    - task: Docker@2
-    displayName: 'Build Docker Image & Push Docker Image to Azure Container Registry (Private) on 113136'
-    inputs:
-      containerRegistry: 'docker-azure-registry-private'
-      repository: 'node-northwind-app'
-      command: 'buildAndPush'
-      Dockerfile: '$(System.DefaultWorkingDirectory)/**/Dockerfile'
-      tags: 'latest'
+# Node.js
+# Build a general Node.js project with npm.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript 
+
+# Pipelibe only build docker image and uploads to Azure Container Registry @113136 NTT Azure Accoount
+
+trigger:
+- main
+
+#what to clean up before the job runs (outputs | resources | all)
+pool:
+  name: "MyBuildAgents"
+  vmImage: ubuntu-latest
+  demand: node.js
+
+variables:
+- group: PipelineVariableGroup
+
+stages:
 
 - stage: Infrastructure
   displayName: 'Setup Infrastrucure in Azure'
@@ -61,66 +34,4 @@
       terraformstorageaccount: $(terraformStorageAccount)
       terraformcontainer: $(terraformContainer)
 
-- stage: QA
-  displayName: 'Deploy Code to QA Web App Service'
-  pool:
-    name: "MyBuildAgents"
-    vmImage: ubuntu-latest
-    demand: node.js
-  dependsOn: Infrastructure
-  variables: 
-    Environment: QA
-  jobs:
-  - template: azure-subpipeline-deploy-to-appservice.yaml
-    parameters:
-      environment: ${{ variables.environment }} 
-      webAppName: '$(appServicePrefix)-qa'
-      subscription: $(subscription)
-
-
-
-
-
-          - task: KubernetesManifest@0
-            displayName: 'Deploy to K8 Cluster on 113136 Subscription'
-            inputs:
-              action: 'deploy'
-              kubernetesServiceConnection: '113136-bpm-cowbird-aks'
-              namespace: 'default'
-              manifests: '$(System.DefaultWorkingDirectory)/drop/www/k8-deployment-azure-113136.yaml'
-
-
-variables:
-- name: k8sNamespace
-  value: 'default'
-- name: dockerRegistryServiceConnection
-  value: 'docker-azure-registry-private'
-- name: containerRegistry
-  value: 'bpm2021acr.azurecr.io'
-- name: imageRepository
-  value: 'node-northwind-app'
-- name: tag
-  value: 'latest'
-- name: imagePullSecret
-  value: ''
-
-          - task: KubernetesManifest@0
-            displayName: Create imagePullSecret
-            inputs:
-              action: createSecret
-              secretName: $(imagePullSecret)
-              namespace: $(k8sNamespace)
-              dockerRegistryEndpoint: $(dockerRegistryServiceConnection)
-
-          - task: KubernetesManifest@0
-            displayName: Deploy to Kubernetes cluster
-            inputs:
-              action: deploy
-              namespace: $(k8sNamespace)
-              manifests: |
-                $(System.DefaultWorkingDirectory)/drop/www/k8-deployment-azure-113136.yaml
-              imagePullSecrets: |
-                $(imagePullSecret)
-              containers: |
-                $(containerRegistry)/$(imageRepository):$(tag)
 
