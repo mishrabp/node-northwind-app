@@ -25,7 +25,6 @@ stages:
     name: "MyBuildAgents"
     vmImage: ubuntu-latest
     demand: node.js
-  dependsOn: Build
   jobs:
   - template: azure-subpipeline-setup-appservice.yaml
     parameters:
