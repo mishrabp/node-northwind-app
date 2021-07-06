@@ -1,0 +1,47 @@
+# deploy-appservice-template.yml
+# It deploys code into app services on Azure
+
+parameters:
+- name: environment # don't pass run-time variables
+- name: webAppName
+- name: subscription
+- name: artifactName
+  default: drop
+
+jobs:
+- deployment: DeployAppService
+  environment: ${{ parameters.environment }}
+  strategy: 
+    runOnce:
+      deploy:
+        steps:
+          - task: Docker@2
+            displayName: 'Push Docker Image to Azure Container Registry (Private) on 113136'
+            inputs:
+              containerRegistry: 'docker-azure-registry-private'
+              repository: 'node-northwind-app'
+              command: 'buildAndPush'
+              Dockerfile: '$(System.DefaultWorkingDirectory)/**/Dockerfile'
+              tags: 'latest'
+      #    - task: Docker@2
+      #      displayName: 'Build Docker Image'
+      #      inputs:
+      #        command: 'build'
+      #        Dockerfile: '**/Dockerfile'
+      #        tags: 'latest'
+      #    - task: Docker@2
+      #      displayName: 'Login to Docker Hub (Public)'
+      #      inputs:
+      #        command: login
+      #        containerRegistry: 'docker-hub-registry-public'
+      #    - task: Docker@2
+      #      displayName: 'Push Docker Image to Docker Hub (Public)'
+      #      inputs:
+      #        containerRegistry: 'docker-hub-registry-public'
+      #        repository: 'bibhupmishra/node-northwind-app'
+      #        command: 'push'
+          - task: KubernetesManifest@0
+            displayName: 'Deploy to K8 Cluster on 113136 Subscription'
+            inputs:
+              kubernetesServiceConnection: '113136-bpm-cowbird-aks'
+              manifests: '$(System.DefaultWorkingDirectory)/**/k8-deployment-azure-113136.yaml'
