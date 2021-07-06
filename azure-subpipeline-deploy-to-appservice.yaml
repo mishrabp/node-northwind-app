@@ -15,12 +15,13 @@ jobs:
     runOnce:
       deploy:
         steps:
-#        - task: DownloadPipelineArtifact@2
-#          inputs:
-#            buildType: 'current'
-#            downloadType: 'single'
-#            artifactName: ${{ parameters.artifactName }}
-#            targetPath: '$(System.DefaultWorkingDirectory)'
+        - task: DownloadPipelineArtifact@2
+          inputs:
+            buildType: 'current'
+            downloadType: 'single'
+            artifactName: ${{ parameters.artifactName }}
+            pattern: drop/*.zip
+            targetPath: '$(System.DefaultWorkingDirectory)'
         - task: AzureRmWebAppDeployment@4
           inputs:
             ConnectionType: 'AzureRM'
