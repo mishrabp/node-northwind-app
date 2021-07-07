@@ -20,9 +20,9 @@ variables:
 - name: bBuildInfrastructure
   value: true 
 - name: bDeployToQA
-  value: false 
+  value: true 
 - name: bDeployToProd
-  value: false 
+  value: true 
 - name: bBuildDockerImage
   value: false 
 #Pipeline Variables
