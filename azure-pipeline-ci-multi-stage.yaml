@@ -16,6 +16,7 @@ pool:
 
 variables:
 - group: PipelineVariableGroup
+#Build & Deployment flags
 - name: bBuildInfrastructure
   value: false 
 - name: bDeployToQA
@@ -24,6 +25,24 @@ variables:
   value: false 
 - name: bBuildDockerImage
   value: false 
+#Pipeline Variables
+- name: appServicePlan
+  value: 'node-northwind-app-sp' 
+- name: appServicePrefix
+  value: 'node-northwind-app' 
+- name: resourceGroup
+  value: 'node-northwind-app-rg' 
+- name: resourceLocation
+  value: 'West US 2' 
+- name: subscription
+  value: 'Visual Studio Subscription - 113136' 
+#Terraform Storage Variables
+- name: terraformContainer
+  value: 'node-northwind-app-terraform' 
+- name: terraformStorageAccount
+  value: 'terraformsabibhu2021' 
+- name: terraformStorageRG
+  value: 'terraformstoragergp' 
 
 
 
