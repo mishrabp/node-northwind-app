@@ -12,8 +12,8 @@ parameters:
   default: terraform
 
 jobs:
-- job: TerraformStorage
-  displayName: 'Create storage for Terraform'
+- job: Terraform
+  displayName: 'Setup Infrastructure using Terraform'
   steps:
   - task: AzureCLI@2
     displayName: 'Create storage for Terraform'
@@ -34,17 +34,6 @@ jobs:
             #az storage account keys list -g $(terraformstoragerg) -n $(terraformstorageaccount)
     enabled: true
     continueOnError: true
-
-- job: Terraform
-  displayName: 'Create resources in Azure'
-  steps:
-  - task: DownloadPipelineArtifact@2
-    displayName: 'Download Artifacts'
-    inputs:
-        buildType: 'current'
-        downloadType: 'single'
-        artifactName: 'drop'
-        targetPath: '$(System.DefaultWorkingDirectory)'
 
   - task: replacetokens@3
     displayName: 'Replace tokens in terraform'
