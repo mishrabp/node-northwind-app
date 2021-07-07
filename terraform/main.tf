@@ -3,9 +3,9 @@
 
 terraform {
   backend "azurerm" {
-    resource_group_name   = "terraformstoragergp"
-    storage_account_name  = "terraformsabibhu2021"
-    container_name        = "node-northwind-app-terraform"
+    resource_group_name   = "#{terraformStorageRG}#"
+    storage_account_name  = "#{terraformStorageAccount}#"
+    container_name        = "#{terraformContainer}#"
     key                   = "terraform.tfstate"
   }
 }
