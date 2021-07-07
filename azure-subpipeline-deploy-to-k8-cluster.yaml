@@ -25,7 +25,7 @@ jobs:
         - task: Kubernetes@1
           inputs:
             connectionType: 'Azure Resource Manager'
-            azureSubscriptionEndpoint: 'Visual Studio Subscription - 113136'
+            azureSubscriptionEndpoint: ${{ parameters.subscription }}
             azureResourceGroup: 'bpm-cowbird-rg'
             kubernetesCluster: 'bpm-cowbird-aks'
             useClusterAdmin: true
@@ -35,7 +35,7 @@ jobs:
             configuration: '$(Pipeline.Workspace)/drop/www/azure-k8-deployment-config.yaml'
             secretType: 'dockerRegistry'
             containerRegistryType: 'Azure Container Registry'
-            azureSubscriptionEndpointForSecrets: 'Visual Studio Subscription - 113136'
+            azureSubscriptionEndpointForSecrets: ${{ parameters.subscription }}
             azureContainerRegistry: 'bpm2021acr.azurecr.io'
             secretName: 'acr-secret-bibhu'
 

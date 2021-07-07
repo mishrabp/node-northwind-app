@@ -1,0 +1,86 @@
+trigger: none
+
+schedules:
+  - cron: "00 15 * * *"
+    displayName: Daily 10:00 AM CT
+    branches:
+      include: 
+      - main
+    always: true
+  - cron: "00 03 * * *"
+    displayName: Daily 10:00 PM CT
+    branches:
+      include: 
+      - main
+    always: true
+
+#what to clean up before the job runs (outputs | resources | all)
+pool:
+  name: "MyBuildAgents"
+  vmImage: ubuntu-latest
+  demand: node.js
+
+variables:
+- group: PipelineVariableGroup
+#Pipeline Variables
+- name: appServicePlan
+  value: 'node-northwind-app-sp' 
+- name: appServicePrefix
+  value: 'node-northwind-app' 
+- name: resourceGroup
+  value: 'node-northwind-app-rg' 
+- name: resourceLocation
+  value: 'West US 2' 
+- name: subscription
+  value: 'Visual Studio Subscription - 113136' 
+- name: artifactName
+  value: 'drop'
+#Terraform Storage Variables
+- name: terraformContainer
+  value: 'node-northwind-app-terraform' 
+- name: terraformStorageAccount
+  value: 'terraformsabibhu2021' 
+- name: terraformStorageRG
+  value: 'terraformstoragergp' 
+
+
+stages:
+- stage: Build
+  displayName: "Copy Code"
+  jobs:
+  - job: Copy
+    displayName: 'Copy Code' 
+    steps:
+    - task: CopyFiles@2
+      displayName: 'Copy application code to www folder'
+      inputs:
+        preserveTimestamp: true
+        cleanTargetFolder: true  
+        sourceFolder: '$(System.DefaultWorkingDirectory)'
+        targetFolder: '$(build.artifactstagingdirectory)/www'
+    - task: CopyFiles@2
+      displayName: 'Copy terrraform files to terraform folder'
+      inputs:
+        SourceFolder: terraform
+        TargetFolder: '$(build.artifactstagingdirectory)/terraform'
+    - task: PublishPipelineArtifact@1
+      displayName: 'Publish Artifacts & Binaries to the drop folder'
+      inputs:
+        targetPath: '$(build.artifactstagingdirectory)'
+        artifact: ${{ variables.artifactName }}
+        publishLocation: 'pipeline'
+
+- stage: Infrastructure
+  displayName: 'Setup Infrastrucure in Azure'
+  pool:
+    name: "MyBuildAgents"
+    vmImage: ubuntu-latest
+    demand: node.js
+  dependsOn: Build
+  jobs:
+  - template: azure-subpipeline-unsetup-appservice.yaml
+    parameters:
+      subscription: ${{ variables.subscription }}
+      terraformstoragerg: ${{ variables.terraformStorageRG }}
+      terraformstorageaccount: ${{ variables.terraformStorageAccount }}
+      terraformcontainer: ${{ variables.terraformContainer }}
