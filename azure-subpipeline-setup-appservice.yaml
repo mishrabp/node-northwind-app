@@ -13,7 +13,7 @@ parameters:
 
 jobs:
 - job: Terraform
-  displayName: 'Setup Infrastructure using Terraform'
+  displayName: 'Setup WebApp using Terraform'
   steps:
   - task: AzureCLI@2
     displayName: 'Create storage for Terraform'
