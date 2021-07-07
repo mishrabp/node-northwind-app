@@ -17,13 +17,13 @@ pool:
 variables:
 - group: PipelineVariableGroup
 - name: bBuildInfrastructure
-  value: False 
+  value: false 
 - name: bDeployToQA
-  value: True 
+  value: true 
 - name: bDeployToProd
-  value: False 
+  value: false 
 - name: bBuildDockerImage
-  value: False 
+  value: false 
 
 
 
@@ -68,7 +68,7 @@ stages:
         publishLocation: 'pipeline'
   - job: Dockerize
     displayName: 'Create a Docker Image & Publish to Azure Container Registry - 113136'
-    condition: and(succeeded(), eq(variables.bBuildDockerImage, true)) 
+    condition:  eq('${{ variables.bBuildDockerImage }}', true) 
     steps:
     - task: Docker@2
       displayName: 'Login to ACR'
@@ -85,7 +85,7 @@ stages:
         tags: 'latest'
   - job: Dockerize2
     displayName: 'Create a Docker Image & Publish to Public Docker Hub Registry' 
-    condition: and(succeeded(), eq(variables.bBuildDockerImage, true)) 
+    condition: eq('${{ variables.bBuildDockerImage }}', true) 
     steps:
     - task: Docker@2
       displayName: 'Login to Docker Hub (Public)'
@@ -103,7 +103,7 @@ stages:
 
 - stage: Infrastructure
   displayName: 'Setup Infrastrucure in Azure'
-  condition: and(succeeded(), eq(variables.bBuildInfrastructure, true))
+  condition: eq('${{ variables.bBuildInfrastructure }}', true) 
   pool:
     name: "MyBuildAgents"
     vmImage: ubuntu-latest
@@ -120,7 +120,7 @@ stages:
 
 - stage: QA
   displayName: 'Deploy Code to QA Web App Service'
-  condition: and(succeeded(), eq(variables.bDeployToQA, true))
+  condition: eq('${{ variables.bDeployToQA }}', true) 
   pool:
     name: "MyBuildAgents"
     vmImage: ubuntu-latest
@@ -137,7 +137,7 @@ stages:
 
 - stage: Production
   displayName: 'Deploy Code to Production Kubernetes Cluster'
-  condition: and(succeeded(), eq(variables.bDeployToProd, true))
+  condition: eq('${{ variables.bDeployToProd }}', true) 
   pool:
     name: "MyBuildAgents"
     vmImage: ubuntu-latest
