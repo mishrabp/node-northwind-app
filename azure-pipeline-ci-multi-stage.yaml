@@ -17,13 +17,13 @@ pool:
 variables:
 - group: PipelineVariableGroup
 - name: bBuildInfrastructure
-  value: false 
+  value: False 
 - name: bDeployToQA
-  value: true 
+  value: True 
 - name: bDeployToProd
-  value: false 
+  value: False 
 - name: bBuildDockerImage
-  value: false 
+  value: False 
 
 
 
