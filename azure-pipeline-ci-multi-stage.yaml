@@ -36,6 +36,8 @@ variables:
   value: 'West US 2' 
 - name: subscription
   value: 'Visual Studio Subscription - 113136' 
+- name: artifactName
+  value: 'drop'
 #Terraform Storage Variables
 - name: terraformContainer
   value: 'node-northwind-app-terraform' 
@@ -43,7 +45,18 @@ variables:
   value: 'terraformsabibhu2021' 
 - name: terraformStorageRG
   value: 'terraformstoragergp' 
-
+#Container & K8 Variables
+- name: privateContainerRegistry
+  value: 'docker-azure-registry-private'
+- name: privateRepository
+  value: 'node-northwind-app'
+- name: publicContainerRegistry
+  value: 'docker-hub-registry-public'
+- name: publicRepository
+  value: 'bibhupmishra/node-northwind-app'
+- name: tagName
+  value: 'latest'
+  
 
 
 stages:
@@ -83,7 +96,7 @@ stages:
       displayName: 'Publish Artifacts & Binaries to the drop folder'
       inputs:
         targetPath: '$(build.artifactstagingdirectory)'
-        artifact: 'drop'
+        artifact: ${{ variables.artifactName }}
         publishLocation: 'pipeline'
   - job: Dockerize
     displayName: 'Create a Docker Image & Publish to Azure Container Registry - 113136'
@@ -93,15 +106,15 @@ stages:
       displayName: 'Login to ACR'
       inputs:
         command: login
-        containerRegistry: docker-azure-registry-private
+        containerRegistry: ${{ variables.privateContainerRegistry }}
     - task: Docker@2
       displayName: 'Push Docker Image to ACR (Private)'
       inputs:
         command: 'buildAndPush'
-        containerRegistry: docker-azure-registry-private
-        repository: 'node-northwind-app'
+        containerRegistry: ${{ variables.privateContainerRegistry }}
+        repository: ${{ variables.privateRepository }}
         Dockerfile: '$(System.DefaultWorkingDirectory)/**/Dockerfile'
-        tags: 'latest'
+        tags: ${{ variables.tagName }}
   - job: Dockerize2
     displayName: 'Create a Docker Image & Publish to Public Docker Hub Registry' 
     condition: eq('${{ variables.bBuildDockerImage }}', true) 
@@ -110,15 +123,15 @@ stages:
       displayName: 'Login to Docker Hub (Public)'
       inputs:
         command: login
-        containerRegistry: docker-hub-registry-public
+        containerRegistry: ${{ variables.publicContainerRegistry }}
     - task: Docker@2
       displayName: 'Push Docker Image to Docker Hub (Public)'
       inputs:
         command: 'buildAndPush'
-        containerRegistry: docker-hub-registry-public
-        repository: 'bibhupmishra/node-northwind-app'
+        containerRegistry: ${{ variables.publicContainerRegistry }}
+        repository: ${{ variables.publicRegistry }}
         Dockerfile: '$(System.DefaultWorkingDirectory)/**/Dockerfile'
-        tags: 'latest'
+        tags: ${{ variables.tagName }}
 
 - stage: Infrastructure
   displayName: 'Setup Infrastrucure in Azure'
@@ -131,10 +144,10 @@ stages:
   jobs:
   - template: azure-subpipeline-setup-appservice.yaml
     parameters:
-      subscription: $(subscription)
-      terraformstoragerg: $(terraformStorageRG)
-      terraformstorageaccount: $(terraformStorageAccount)
-      terraformcontainer: $(terraformContainer)
+      subscription: ${{ variables.subscription }}
+      terraformstoragerg: ${{ variables.terraformStorageRG }}
+      terraformstorageaccount: ${{ variables.terraformStorageAccount }}
+      terraformcontainer: ${{ variables.terraformContainer }}
 
 
 - stage: QA
@@ -151,8 +164,8 @@ stages:
   - template: azure-subpipeline-deploy-to-appservice.yaml
     parameters:
       environment: ${{ variables.environment }} 
-      webAppName: '$(appServicePrefix)-qa'
-      subscription: $(subscription)
+      webAppName: '${{ variables.appServicePrefix }}-qa'
+      subscription: ${{ variables.subscription }}
 
 - stage: Production
   displayName: 'Deploy Code to Production Kubernetes Cluster'
@@ -168,5 +181,5 @@ stages:
   - template: azure-subpipeline-deploy-to-k8-cluster.yaml
     parameters:
       environment: ${{ variables.environment }} 
-      webAppName: '$(appServicePrefix)-prod'
-      subscription: $(subscription)
+      webAppName: '${{ variables.appServicePrefix }}-prod'
+      subscription: ${{ variables.subscription }}
