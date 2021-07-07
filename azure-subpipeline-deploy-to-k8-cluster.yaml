@@ -11,7 +11,7 @@ parameters:
 
 
 jobs:
-- deployment: DeployAppService
+- deployment: DeployToK8Cluster
   environment: ${{ parameters.environment }}
   strategy: 
     runOnce:

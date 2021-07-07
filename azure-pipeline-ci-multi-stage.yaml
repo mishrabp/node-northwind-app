@@ -16,6 +16,8 @@ pool:
 
 variables:
 - group: PipelineVariableGroup
+- name: bBuildInfrastructure
+  value: false 
 
 stages:
 
@@ -95,6 +97,7 @@ stages:
 
 - stage: Infrastructure
   displayName: 'Setup Infrastrucure in Azure'
+  condition: and(succeeded(), eq(variables.bBuildInfrastructure, true))
   pool:
     name: "MyBuildAgents"
     vmImage: ubuntu-latest

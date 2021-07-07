@@ -9,7 +9,7 @@ parameters:
   default: drop
 
 jobs:
-- deployment: DeployAppService
+- deployment: DeployToWebAppService
   environment: ${{ parameters.environment }}
   strategy: 
     runOnce:
