@@ -18,9 +18,16 @@ variables:
 - group: PipelineVariableGroup
 - name: bBuildInfrastructure
   value: false 
+- name: bDeployToQA
+  value: true 
+- name: bDeployToProd
+  value: false 
+- name: bBuildDockerImage
+  value: false 
+
+
 
 stages:
-
 - stage: Build
   displayName: "Compile Code"
   jobs:
@@ -59,10 +66,9 @@ stages:
         targetPath: '$(build.artifactstagingdirectory)'
         artifact: 'drop'
         publishLocation: 'pipeline'
-
-
   - job: Dockerize
-    displayName: 'Create a Docker Image & Publish to Azure Container Registry - 113136' 
+    displayName: 'Create a Docker Image & Publish to Azure Container Registry - 113136'
+    condition: and(succeeded(), eq(variables.bBuildDockerImage, true)) 
     steps:
     - task: Docker@2
       displayName: 'Login to ACR'
@@ -77,9 +83,9 @@ stages:
         repository: 'node-northwind-app'
         Dockerfile: '$(System.DefaultWorkingDirectory)/**/Dockerfile'
         tags: 'latest'
-  
   - job: Dockerize2
     displayName: 'Create a Docker Image & Publish to Public Docker Hub Registry' 
+    condition: and(succeeded(), eq(variables.bBuildDockerImage, true)) 
     steps:
     - task: Docker@2
       displayName: 'Login to Docker Hub (Public)'
@@ -114,6 +120,7 @@ stages:
 
 - stage: QA
   displayName: 'Deploy Code to QA Web App Service'
+  condition: and(succeeded(), eq(variables.bDeployToQA, true))
   pool:
     name: "MyBuildAgents"
     vmImage: ubuntu-latest
@@ -130,6 +137,7 @@ stages:
 
 - stage: Production
   displayName: 'Deploy Code to Production Kubernetes Cluster'
+  condition: and(succeeded(), eq(variables.bDeployToProd, true))
   pool:
     name: "MyBuildAgents"
     vmImage: ubuntu-latest
