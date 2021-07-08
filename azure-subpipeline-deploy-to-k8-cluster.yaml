@@ -22,20 +22,6 @@ jobs:
           inputs:
             kubectlVersion: 'latest'
 
-        - task: replacetokens@3 #this replaces all tokens #{variable name}# with vaule of the variables
-          displayName: 'Replace tokens in terraform'
-          inputs:
-              rootDirectory: '$(Pipeline.Workspace)/drop/www'
-              targetFiles: 'azure-k8-deployment-config.yaml'
-              encoding: 'auto'
-              writeBOM: true
-              actionOnMissing: 'warn'
-              keepToken: false
-              tokenPrefix: '#{'
-              tokenSuffix: '}#'
-              useLegacyPattern: false
-              enableTransforms: false
-              enableTelemetry: true
 
         - task: Kubernetes@1
           inputs:
