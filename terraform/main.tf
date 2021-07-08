@@ -80,7 +80,7 @@ resource "azurerm_app_service" "qa" {
         "MYNWAPP_GEOCODER_API_KEY" = "AIzaSyAFN7pm1QA20ojk8CA2tQnXzOHB1ryRGtM"
         "MYNWAPP_ERRORLOG" = "true"
         "MYNWAPP_TRACKINGLOG" = "true"
-        "MYNWAPP_MONGO_URI" ="mongodb://mongoadmin:passw0rd!@devopsmasterlinuxvm.centralus.cloudapp.azure.com:27017/northwind?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&ssl=false"
+        "MYNWAPP_MONGO_URI" = "#{MYNWAPP-MONGO-URI}#"
     }
 
     connection_string {
