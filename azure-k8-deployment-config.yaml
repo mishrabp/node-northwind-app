@@ -23,7 +23,7 @@ spec:
         imagePullPolicy: IfNotPresent
         env: 
         - name: MYNWAPP_MONGO_URI
-          value: 'mongodb://mongoadmin:passw0rd!@devopsmasterlinuxvm.centralus.cloudapp.azure.com:9003/northwind?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&ssl=false'
+          value: '#{MYNWAPP-MONGO-URI}#' # 'mongodb://mongoadmin:passw0rd!@devopsmasterlinuxvm.centralus.cloudapp.azure.com:9003/northwind?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&ssl=false'
         ports:
         - containerPort: 8080    
       imagePullSecrets:

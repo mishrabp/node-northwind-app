@@ -35,7 +35,7 @@ jobs:
     enabled: true
     continueOnError: true
 
-  - task: replacetokens@3
+  - task: replacetokens@3 #this replaces all tokens #{variable name}# with vaule of the variables
     displayName: 'Replace tokens in terraform'
     inputs:
         rootDirectory: '$(System.DefaultWorkingDirectory)/terraform'
