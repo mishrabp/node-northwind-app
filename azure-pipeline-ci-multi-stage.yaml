@@ -91,6 +91,7 @@ stages:
       displayName: 'Create a deployable zip file from the www folder'
       inputs:
         rootFolderOrFile: '$(build.artifactstagingdirectory)/www'
+        archiveFile: '$(Build.ArtifactStagingDirectory)/northwind.zip' 
         includeRootFolder: false        
     - task: PublishPipelineArtifact@1
       displayName: 'Publish Artifacts & Binaries to the drop folder'

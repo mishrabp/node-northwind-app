@@ -15,13 +15,13 @@ jobs:
     runOnce:
       deploy:
         steps:
-        #- download: none
+        - download: none
         - task: DownloadPipelineArtifact@2
           inputs:
             buildType: 'current'
             downloadType: 'single'
             artifactName: ${{ parameters.artifactName }}
-            pattern: drop/*.zip
+            pattern: drop/northwind.zip
             targetPath: '$(System.DefaultWorkingDirectory)'
         - task: AzureRmWebAppDeployment@4
           inputs:
@@ -29,4 +29,4 @@ jobs:
             azureSubscription: ${{ parameters.subscription }}
             appType: 'webAppLinux'  #its webApp for windows based apps. webAppLinux for linux based apps
             WebAppName: ${{ parameters.webAppName }}
-            packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
+            packageForLinux: '$(System.DefaultWorkingDirectory)/**/northwind.zip'
