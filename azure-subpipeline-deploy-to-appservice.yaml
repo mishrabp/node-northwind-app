@@ -7,6 +7,7 @@ parameters:
 - name: subscription
 - name: artifactName
   default: drop
+- name: webAppRG
 
 jobs:
 - deployment: DeployToWebAppService
@@ -17,6 +18,7 @@ jobs:
         steps:
         - download: none
         - task: DownloadPipelineArtifact@2
+          displayName: 'Download the packaged zip'
           inputs:
             buildType: 'current'
             downloadType: 'single'
@@ -24,9 +26,24 @@ jobs:
             pattern: drop/northwind.zip
             targetPath: '$(System.DefaultWorkingDirectory)/publish'
         - task: AzureRmWebAppDeployment@4
+          displayName: 'Deploy the packaged zip to App Service Staging Slot'
           inputs:
             ConnectionType: 'AzureRM'
             azureSubscription: ${{ parameters.subscription }}
             appType: 'webAppLinux'  #its webApp for windows based apps. webAppLinux for linux based apps
             WebAppName: ${{ parameters.webAppName }}
             packageForLinux: '$(System.DefaultWorkingDirectory)/publish/northwind.zip'
+            ResourceGroupName: ${{ parameters.webAppRG }}
+            StartupCommand: 'npm start'
+            #Deploying to staging slot
+            deployToSlotOrASE: true
+            SlotName: 'staging'
+        - task: AzureAppServiceManage@0
+          displayName: 'Swap the staging slot with production (Blue-Green Deployment)'
+          inputs:
+            azureSubscription: '${{ parameters.subscription }}'
+            appType: webAppLinux
+            WebAppName: ${{ parameters.webAppName }}
+            ResourceGroupName: ${{ parameters.webAppRG }}
+            SourceSlot: 'staging'
+            SwapWithProduction: true

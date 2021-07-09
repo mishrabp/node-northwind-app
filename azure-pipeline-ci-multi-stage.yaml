@@ -187,6 +187,7 @@ stages:
       environment: ${{ variables.environment }} 
       webAppName: '${{ variables.appServicePrefix }}-qa'
       subscription: ${{ variables.subscription }}
+      webAppRG: '${{ variables.resourceGroup }}'
 
 - stage: Production
   displayName: 'Deploy Code to Production Kubernetes Cluster'
