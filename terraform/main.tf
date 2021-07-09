@@ -68,7 +68,7 @@ resource "azurerm_app_service" "qa" {
     app_service_plan_id = azurerm_app_service_plan.my.id 
 
     site_config {
-        linux_fx_version = "NODE|12"
+        linux_fx_version = "NODE|12-lts"
         app_command_line = "npm start"
     }
     
