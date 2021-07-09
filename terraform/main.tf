@@ -93,8 +93,8 @@ resource "azurerm_app_service" "qa" {
 
 #Creating an App Service Slot for QA
 resource "azurerm_app_service_slot" "qaslot" {
-    name = "${var.app_service_name_prefix}-qa-staging"
-    app_service_name = "${var.app_service_name_prefix}-qa"
+    name = "staging"
+    app_service_name = azurerm_app_service.qa.name 
     location = azurerm_resource_group.my.location
     resource_group_name = azurerm_resource_group.my.name
     app_service_plan_id = azurerm_app_service_plan.my.id 

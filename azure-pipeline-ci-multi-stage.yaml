@@ -117,6 +117,8 @@ stages:
       displayName: 'Delete the staging www folder post zipping'
       inputs:
         SourceFolder: '$(build.artifactstagingdirectory)/www'
+        Contents: |
+          **
         RemoveSourceFolder: true       
     - task: PublishPipelineArtifact@1
       displayName: 'Publish Artifacts & Binaries to the drop folder'
