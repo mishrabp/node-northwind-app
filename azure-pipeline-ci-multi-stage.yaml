@@ -82,7 +82,8 @@ stages:
         cleanTargetFolder: true  
         sourceFolder: '$(System.DefaultWorkingDirectory)'
         Contents: |
-          !.github\
+          *.*
+          !.github/
           !*.txt
           !*.yaml
           !.dockerignore
