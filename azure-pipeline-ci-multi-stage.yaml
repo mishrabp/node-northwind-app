@@ -20,7 +20,7 @@ variables:
 - name: bBuildInfrastructure
   value: false 
 - name: bDeployToQA
-  value: false 
+  value: true 
 - name: bDeployToProd
   value: false 
 - name: bBuildDockerImage
@@ -83,13 +83,16 @@ stages:
         sourceFolder: '$(System.DefaultWorkingDirectory)'
         Contents: |
           **
-          !**/.github/**
-          !**/ssl
+          !.github/**
+          !ssl/**
           !src/**
+          !terraform/**
+          !dal/csvdata/**
           !*.txt
           !*.yaml
           !*.cmd
           !*.sh
+          !*.md
           !Jenkins*.*
           !tailwind*.*
           !babel*.*
