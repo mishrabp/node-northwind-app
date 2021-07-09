@@ -18,9 +18,9 @@ variables:
 - group: PipelineVariableGroup
 #Build & Deployment flags used for debugging & troubleshooting
 - name: bBuildInfrastructure
-  value: false 
-- name: bDeployToQA
   value: true 
+- name: bDeployToQA
+  value: false 
 - name: bDeployToProd
   value: false 
 - name: bBuildDockerImage
@@ -112,7 +112,12 @@ stages:
         rootFolderOrFile: '$(build.artifactstagingdirectory)/www'
         archiveFile: '$(Build.ArtifactStagingDirectory)/northwind.zip' 
         replaceExistingArchive: true 
-        includeRootFolder: false        
+        includeRootFolder: false 
+    - task: DeleteFiles@1
+      displayName: 'Delete the staging www folder post zipping'
+      inputs:
+        SourceFolder: '$(build.artifactstagingdirectory)/www'
+        RemoveSourceFolder: true       
     - task: PublishPipelineArtifact@1
       displayName: 'Publish Artifacts & Binaries to the drop folder'
       inputs:

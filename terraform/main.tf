@@ -54,8 +54,8 @@ resource "azurerm_app_service_plan" "my" {
     reserved = true
 
     sku {
-        tier = "Basic"
-        size = "B1"
+        tier = "Standard"
+        size = "S1"
     }
 
 }
@@ -63,6 +63,38 @@ resource "azurerm_app_service_plan" "my" {
 #Creating an App Service for QA
 resource "azurerm_app_service" "qa" {
     name = "${var.app_service_name_prefix}-qa"
+    location = azurerm_resource_group.my.location
+    resource_group_name = azurerm_resource_group.my.name
+    app_service_plan_id = azurerm_app_service_plan.my.id 
+
+    site_config {
+        linux_fx_version = "NODE|12-lts"
+        app_command_line = "npm start"
+    }
+    
+    app_settings = {
+        "MYNWAPP_ENV" = "development"
+        "MYNWAPP_PORT" = "8080"
+        "MYNWAPP_AuthTokenKey" = "authtoken1"
+        "MYNWAPP_SessionKey" = "sessionkey1"
+        "MYNWAPP_GEOCODER_API_KEY" = "AIzaSyAFN7pm1QA20ojk8CA2tQnXzOHB1ryRGtM"
+        "MYNWAPP_ERRORLOG" = "true"
+        "MYNWAPP_TRACKINGLOG" = "true"
+        "MYNWAPP_MONGO_URI" = "#{MYNWAPP-MONGO-URI}#"
+    }
+
+    connection_string {
+        name  = "Database"
+        type  = "SQLServer"
+        value = "Server=some-server.mydomain.com;Integrated Security=SSPI"
+    }
+}
+
+
+#Creating an App Service Slot for QA
+resource "azurerm_app_service" "qa" {
+    name = "${var.app_service_name_prefix}-qa-staging"
+    app_service_name = "${var.app_service_name_prefix}-qa"
     location = azurerm_resource_group.my.location
     resource_group_name = azurerm_resource_group.my.name
     app_service_plan_id = azurerm_app_service_plan.my.id 
