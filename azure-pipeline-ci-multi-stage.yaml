@@ -18,7 +18,7 @@ variables:
 - group: PipelineVariableGroup
 #Build & Deployment flags used for debugging & troubleshooting
 - name: bBuildInfrastructure
-  value: true 
+  value: false 
 - name: bDeployToQA
   value: false 
 - name: bDeployToProd
@@ -91,6 +91,19 @@ stages:
       displayName: 'Create a deployable zip file from the www folder'
       inputs:
         rootFolderOrFile: '$(build.artifactstagingdirectory)/www'
+        Contents: |
+          !.git\
+          !.github\
+          !*.txt
+          !*.yaml
+          !.dockerignore
+          !Dockerfile
+          !Jenkins*.*
+          !*.cmd
+          !*.sh
+          !ssl/
+          !tailwind*.*
+          !babel*.*
         archiveFile: '$(Build.ArtifactStagingDirectory)/northwind.zip' 
         replaceExistingArchive: true 
         includeRootFolder: false        
