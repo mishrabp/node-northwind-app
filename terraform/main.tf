@@ -68,8 +68,7 @@ resource "azurerm_app_service" "qa" {
     app_service_plan_id = azurerm_app_service_plan.my.id 
 
     site_config {
-        dotnet_framework_version = "v4.0"
-        scm_type                 = "LocalGit"
+        app_command_line = "npm start"
     }
     
     app_settings = {
