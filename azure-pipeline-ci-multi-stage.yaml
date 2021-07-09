@@ -83,19 +83,20 @@ stages:
         sourceFolder: '$(System.DefaultWorkingDirectory)'
         Contents: |
           **
-          !.github
+          !**/.github/**
+          !**/ssl
+          !src/**
           !*.txt
           !*.yaml
+          !*.cmd
+          !*.sh
+          !Jenkins*.*
+          !tailwind*.*
+          !babel*.*
+          !sonar*.*
           !.dockerignore
           !.gitignore
           !Dockerfile
-          !Jenkins*.*
-          !*.cmd
-          !*.sh
-          !ssl
-          !src
-          !tailwind*.*
-          !babel*.*
         targetFolder: '$(build.artifactstagingdirectory)/www'
 #    - task: CopyFiles@2
 #      displayName: 'Copy terrraform files to terraform folder'
