@@ -81,18 +81,7 @@ stages:
         preserveTimestamp: true
         cleanTargetFolder: true  
         sourceFolder: '$(System.DefaultWorkingDirectory)'
-        targetFolder: '$(build.artifactstagingdirectory)/www'
-#    - task: CopyFiles@2
-#      displayName: 'Copy terrraform files to terraform folder'
-#      inputs:
-#        SourceFolder: terraform
-#        TargetFolder: '$(build.artifactstagingdirectory)/terraform'
-    - task: ArchiveFiles@2
-      displayName: 'Create a deployable zip file from the www folder'
-      inputs:
-        rootFolderOrFile: '$(build.artifactstagingdirectory)/www'
         Contents: |
-          !.git\
           !.github\
           !*.txt
           !*.yaml
@@ -104,6 +93,16 @@ stages:
           !ssl/
           !tailwind*.*
           !babel*.*
+        targetFolder: '$(build.artifactstagingdirectory)/www'
+#    - task: CopyFiles@2
+#      displayName: 'Copy terrraform files to terraform folder'
+#      inputs:
+#        SourceFolder: terraform
+#        TargetFolder: '$(build.artifactstagingdirectory)/terraform'
+    - task: ArchiveFiles@2
+      displayName: 'Create a deployable zip file from the www folder'
+      inputs:
+        rootFolderOrFile: '$(build.artifactstagingdirectory)/www'
         archiveFile: '$(Build.ArtifactStagingDirectory)/northwind.zip' 
         replaceExistingArchive: true 
         includeRootFolder: false        
