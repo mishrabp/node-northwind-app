@@ -83,7 +83,7 @@ stages:
         sourceFolder: '$(System.DefaultWorkingDirectory)'
         Contents: |
           **
-          !.github/
+          !.github
           !*.txt
           !*.yaml
           !.dockerignore
@@ -92,7 +92,8 @@ stages:
           !Jenkins*.*
           !*.cmd
           !*.sh
-          !ssl/
+          !ssl
+          !src
           !tailwind*.*
           !babel*.*
         targetFolder: '$(build.artifactstagingdirectory)/www'
