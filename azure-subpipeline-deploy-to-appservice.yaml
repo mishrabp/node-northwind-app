@@ -22,11 +22,11 @@ jobs:
             downloadType: 'single'
             artifactName: ${{ parameters.artifactName }}
             pattern: drop/northwind.zip
-            targetPath: '$(System.DefaultWorkingDirectory)'
+            targetPath: '$(System.DefaultWorkingDirectory)/publish'
         - task: AzureRmWebAppDeployment@4
           inputs:
             ConnectionType: 'AzureRM'
             azureSubscription: ${{ parameters.subscription }}
             appType: 'webAppLinux'  #its webApp for windows based apps. webAppLinux for linux based apps
             WebAppName: ${{ parameters.webAppName }}
-            packageForLinux: '$(System.DefaultWorkingDirectory)/**/northwind.zip'
+            packageForLinux: '$(System.DefaultWorkingDirectory)/publish/northwind.zip'

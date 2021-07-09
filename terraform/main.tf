@@ -74,7 +74,7 @@ resource "azurerm_app_service" "qa" {
     
     app_settings = {
         "MYNWAPP_ENV" = "development"
-        "MYNWAPP_PORT" = "8091"
+        "MYNWAPP_PORT" = "8080"
         "MYNWAPP_AuthTokenKey" = "authtoken1"
         "MYNWAPP_SessionKey" = "sessionkey1"
         "MYNWAPP_GEOCODER_API_KEY" = "AIzaSyAFN7pm1QA20ojk8CA2tQnXzOHB1ryRGtM"
