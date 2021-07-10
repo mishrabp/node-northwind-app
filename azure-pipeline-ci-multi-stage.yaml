@@ -121,6 +121,7 @@ stages:
         SourceFolder: '$(build.artifactstagingdirectory)/www'
         Contents: |
           **
+          !*k8*.yaml
         RemoveSourceFolder: true       
     - task: PublishPipelineArtifact@1
       displayName: 'Publish Artifacts & Binaries to the drop folder'
