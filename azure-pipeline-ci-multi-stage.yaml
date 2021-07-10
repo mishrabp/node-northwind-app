@@ -216,9 +216,9 @@ stages:
   pool:
     name: "MyBuildAgents"
     demand: node.js
-  dependsOn: Infrastructure
+  dependsOn: Development
   variables: 
-    Environment: Development
+    Environment: QA
   jobs:
   - template: azure-subpipeline-deploy-to-qa-appservice.yaml
     parameters:
