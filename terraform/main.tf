@@ -191,8 +191,8 @@ resource "azurerm_virtual_machine" "main" {
     managed_disk_type = "Standard_LRS"
   }
   os_profile {
-    computer_name  = "hostname"
-    admin_username = "testadmin"
+    computer_name  = "${var.app_service_name_prefix}-vm"
+    admin_username = "azureuser"
     admin_password = "Password1234!"
   }
   os_profile_linux_config {
