@@ -1,6 +1,3 @@
-# deploy-appservice-template.yml
-# It deploys code into app services on Azure
-
 parameters:
 - name: environment # don't pass run-time variables
 - name: containerName
@@ -19,8 +16,16 @@ jobs:
         - task: Bash@3
           displayName: 'Remove runing docker container'
           inputs:
-            inputs:
-              script: |
-                # Modify deployment script based on the app type
-                echo "Starting deployment script run"
-               
+            script: |
+              # Modify deployment script based on the app type
+              echo "Starting deployment script run"
+              sh "docker stop ${{ parameters.containerName }}"
+              sh "docker rm ${{ parameters.containerName }}"
+              sh "docker rmi ${{ parameters.imageName }}"
+        - task: Bash@3
+          displayName: 'Instantiate container from Docker Hub image'
+          inputs:
+            script: |
+              # Modify deployment script based on the app type
+              echo "Starting deployment script run"
+              "docker run -d --name ${{ parameters.containerName }} -p 8081:8080 -e MYNWAPP_ENV=development -e MYNWAPP_PORT=8080 -e MYNWAPP_AuthTokenKey=authtoken1 -e MYNWAPP_SessionKey=sessionkey1 -e MYNWAPP_GEOCODER_API_KEY=AIzaSyAFN7pm1QA20ojk8CA2tQnXzOHB1ryRGtM -e MYNWAPP_ERRORLOG=true -e MYNWAPP_TRACKINGLOG=true -e MYNWAPP_MONGO_URI='mongodb://mongoadmin:passw0rd!@devopsmasterlinuxvm.centralus.cloudapp.azure.com:9003/northwind?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&ssl=false' ${{ parameters.containerName }}"
