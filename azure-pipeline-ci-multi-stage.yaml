@@ -18,13 +18,13 @@ variables:
 - group: PipelineVariableGroup
 #Build & Deployment flags used for debugging & troubleshooting
 - name: bBuildInfrastructure
-  value: true 
+  value: false 
 - name: bDeployToQA
-  value: true 
+  value: false 
 - name: bDeployToProd
   value: true 
 - name: bBuildDockerImage
-  value: true 
+  value: false 
 #Pipeline Variables
 - name: appServicePlan
   value: 'node-northwind-app-sp' 
@@ -79,6 +79,15 @@ stages:
         npm run build
       displayName: 'npm install and build'
     - task: CopyFiles@2
+      displayName: 'Copy application code to k8 folder'
+      inputs:
+        preserveTimestamp: true
+        cleanTargetFolder: true  
+        sourceFolder: '$(System.DefaultWorkingDirectory)'
+        Contents: |
+          *k8*.yaml
+        targetFolder: '$(build.artifactstagingdirectory)/k8'
+    - task: CopyFiles@2
       displayName: 'Copy application code to www folder'
       inputs:
         preserveTimestamp: true
@@ -120,7 +129,6 @@ stages:
         SourceFolder: '$(build.artifactstagingdirectory)/www'
         Contents: |
           **
-          !*k8*.yaml
         RemoveSourceFolder: true       
     - task: PublishPipelineArtifact@1
       displayName: 'Publish Artifacts & Binaries to the drop folder'

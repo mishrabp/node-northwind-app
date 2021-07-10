@@ -25,7 +25,7 @@ jobs:
         - task: replacetokens@3 #this replaces all tokens #{variable name}# with vaule of the variables
           displayName: 'Replace tokens in terraform'
           inputs:
-              rootDirectory: '$(Pipeline.Workspace)/drop/www'
+              rootDirectory: '$(Pipeline.Workspace)/drop/k8'
               targetFiles: 'azure-k8-deployment-config.yaml'
               encoding: 'auto'
               writeBOM: true
@@ -47,7 +47,7 @@ jobs:
             namespace: 'default'
             command: 'apply'
             useConfigurationFile: true
-            configuration: '$(Pipeline.Workspace)/drop/www/azure-k8-deployment-config.yaml'
+            configuration: '$(Pipeline.Workspace)/drop/k8/azure-k8-deployment-config.yaml'
             secretType: 'dockerRegistry'
             containerRegistryType: 'Azure Container Registry'
             azureSubscriptionEndpointForSecrets: ${{ parameters.subscription }}
