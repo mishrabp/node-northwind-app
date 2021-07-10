@@ -73,14 +73,14 @@ resource "azurerm_app_service" "main" {
     }
     
     app_settings = {
-        "mainNWAPP_ENV" = "development"
-        "mainNWAPP_PORT" = "8080"
-        "mainNWAPP_AuthTokenKey" = "authtoken1"
-        "mainNWAPP_SessionKey" = "sessionkey1"
-        "mainNWAPP_GEOCODER_API_KEY" = "AIzaSyAFN7pm1QA20ojk8CA2tQnXzOHB1ryRGtM"
-        "mainNWAPP_ERRORLOG" = "true"
-        "mainNWAPP_TRACKINGLOG" = "true"
-        "mainNWAPP_MONGO_URI" = "#{mainNWAPP-MONGO-URI}#"
+        "MYNWAPP_ENV" = "development"
+        "MYNWAPP_PORT" = "8080"
+        "MYNWAPP_AuthTokenKey" = "authtoken1"
+        "MYNWAPP_SessionKey" = "sessionkey1"
+        "MYNWAPP_GEOCODER_API_KEY" = "AIzaSyAFN7pm1QA20ojk8CA2tQnXzOHB1ryRGtM"
+        "MYNWAPP_ERRORLOG" = "true"
+        "MYNWAPP_TRACKINGLOG" = "true"
+        "MYNWAPP_MONGO_URI" = "#{MYNWAPP-MONGO-URI}#"
     }
 
     connection_string {
@@ -105,14 +105,14 @@ resource "azurerm_app_service_slot" "qaslot" {
     }
     
     app_settings = {
-        "mainNWAPP_ENV" = "development"
-        "mainNWAPP_PORT" = "8080"
-        "mainNWAPP_AuthTokenKey" = "authtoken1"
-        "mainNWAPP_SessionKey" = "sessionkey1"
-        "mainNWAPP_GEOCODER_API_KEY" = "AIzaSyAFN7pm1QA20ojk8CA2tQnXzOHB1ryRGtM"
-        "mainNWAPP_ERRORLOG" = "true"
-        "mainNWAPP_TRACKINGLOG" = "true"
-        "mainNWAPP_MONGO_URI" = "#{mainNWAPP-MONGO-URI}#"
+        "MYNWAPP_ENV" = "development"
+        "MYNWAPP_PORT" = "8080"
+        "MYNWAPP_AuthTokenKey" = "authtoken1"
+        "MYNWAPP_SessionKey" = "sessionkey1"
+        "MYNWAPP_GEOCODER_API_KEY" = "AIzaSyAFN7pm1QA20ojk8CA2tQnXzOHB1ryRGtM"
+        "MYNWAPP_ERRORLOG" = "true"
+        "MYNWAPP_TRACKINGLOG" = "true"
+        "MYNWAPP_MONGO_URI" = "#{MYNWAPP-MONGO-URI}#"
     }
 
     connection_string {
