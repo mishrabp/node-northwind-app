@@ -20,7 +20,6 @@ jobs:
           displayName: 'Remove runing docker container'
           inputs:
             inputs:
-              targetType: 'inline'
               script: |
                 # Modify deployment script based on the app type
                 echo "Starting deployment script run"
@@ -31,7 +30,6 @@ jobs:
           displayName: 'Instantiate container from Docker Hub image'
           inputs:
             inputs:
-              targetType: 'inline'
               script: |
                 # Modify deployment script based on the app type
                 echo "Starting deployment script run"
