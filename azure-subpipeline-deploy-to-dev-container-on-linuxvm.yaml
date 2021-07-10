@@ -16,6 +16,7 @@ jobs:
         - task: Bash@3
           displayName: 'Remove runing docker container'
           inputs:
+            targetType: 'inline' #inline executes the code in the development environment resources, not on agent where the pipeline is running
             script: |
               # Modify deployment script based on the app type
               echo "Starting deployment script run"
@@ -25,6 +26,7 @@ jobs:
         - task: Bash@3
           displayName: 'Instantiate container from Docker Hub image'
           inputs:
+            targetType: 'inline'
             script: |
               # Modify deployment script based on the app type
               echo "Starting deployment script run"
