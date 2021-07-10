@@ -20,9 +20,9 @@ jobs:
             script: |
               # Modify deployment script based on the app type
               echo "Starting deployment script run"
-              sh "docker stop ${{ parameters.containerName }}"
-              sh "docker rm ${{ parameters.containerName }}"
-              sh "docker rmi ${{ parameters.imageName }}"
+#              sh "docker stop ${{ parameters.containerName }}"
+#              sh "docker rm ${{ parameters.containerName }}"
+#              sh "docker rmi ${{ parameters.imageName }}"
         - task: Bash@3
           displayName: 'Instantiate container from Docker Hub image'
           inputs:
