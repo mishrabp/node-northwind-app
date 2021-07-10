@@ -84,6 +84,7 @@ stages:
         Contents: |
           **
           !.github/**
+          !.git/**
           !ssl/**
           !src/**
           !terraform/**
@@ -100,6 +101,7 @@ stages:
           !.dockerignore
           !.gitignore
           !Dockerfile
+          !LICENSE
         targetFolder: '$(build.artifactstagingdirectory)/www'
 #    - task: CopyFiles@2
 #      displayName: 'Copy terrraform files to terraform folder'
