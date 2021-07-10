@@ -144,6 +144,7 @@ resource "azurerm_public_ip" "main" {
   resource_group_name = azurerm_resource_group.main.name
   location            = azurerm_resource_group.main.location
   allocation_method   = "Static"
+  domain_name_label = "${var.app_service_name_prefix}-vm"
 
   tags = {
     environment = "Production"
