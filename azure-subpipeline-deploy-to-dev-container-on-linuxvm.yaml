@@ -6,7 +6,7 @@ parameters:
 
 
 jobs:
-- deployment: DeployToWebAppService
+- deployment: DeployToLinuxVM
   environment: ${{ parameters.environment }}
   strategy: 
     runOnce:
@@ -19,7 +19,7 @@ jobs:
             targetType: 'inline' #inline executes the code in the development environment resources, not on agent where the pipeline is running
             script: |
               # Modify deployment script based on the app type
-              echo "Starting deployment script run"
+              echo "Remove running docker container"
               sh "docker stop ${{ parameters.containerName }}"
               sh "docker rm ${{ parameters.containerName }}"
               sh "docker rmi ${{ parameters.imageName }}"
@@ -30,6 +30,6 @@ jobs:
             targetType: 'inline'
             script: |
               # Modify deployment script based on the app type
-              echo "Starting deployment script run"
+              echo "Deploy the latest docker image"
               "docker run -d --name ${{ parameters.containerName }} -p 8081:8080 -e MYNWAPP_ENV=development -e MYNWAPP_PORT=8080 -e MYNWAPP_AuthTokenKey=authtoken1 -e MYNWAPP_SessionKey=sessionkey1 -e MYNWAPP_GEOCODER_API_KEY=AIzaSyAFN7pm1QA20ojk8CA2tQnXzOHB1ryRGtM -e MYNWAPP_ERRORLOG=true -e MYNWAPP_TRACKINGLOG=true -e MYNWAPP_MONGO_URI=${{ parameters.dbURI }} ${{ parameters.imageName }}"
             failOnStderr: false
