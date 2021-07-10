@@ -78,7 +78,7 @@ stages:
     demand: node.js
   dependsOn: Build
   jobs:
-  - template: azure-subpipeline-unsetup-appservice.yaml
+  - template: azure-subpipeline-unsetup-app-infrastructures.yaml
     parameters:
       subscription: ${{ variables.subscription }}
       terraformstoragerg: ${{ variables.terraformStorageRG }}

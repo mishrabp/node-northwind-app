@@ -187,13 +187,28 @@ stages:
     demand: node.js
   dependsOn: Build
   jobs:
-  - template: azure-subpipeline-setup-appservice.yaml
+  - template: azure-subpipeline-setup-app-infrastructures.yaml
     parameters:
       subscription: ${{ variables.subscription }}
       terraformstoragerg: ${{ variables.terraformStorageRG }}
       terraformstorageaccount: ${{ variables.terraformStorageAccount }}
       terraformcontainer: ${{ variables.terraformContainer }}
 
+- stage: Development
+  displayName: 'Deploy Docker container on Dev Liunx VM '
+  condition: eq('${{ variables.bDeployToDev }}', true) 
+  pool:
+    name: "MyBuildAgents"
+    demand: node.js
+  dependsOn: Infrastructure
+  variables: 
+    Environment: Development
+  jobs:
+  - template: azure-subpipeline-deploy-to-dev-container-on-linuxvm.yaml
+    parameters:
+      environment: ${{ variables.environment }} 
+      containerName: '${{ variables.appServicePrefix }}-dev'
+      imageName: '${{ variables.publicRepository }}:${{ variables.tagName }}'
 
 - stage: QA
   displayName: 'Deploy Code to QA Web App Service'
@@ -203,9 +218,9 @@ stages:
     demand: node.js
   dependsOn: Infrastructure
   variables: 
-    Environment: QA
+    Environment: Development
   jobs:
-  - template: azure-subpipeline-deploy-to-appservice.yaml
+  - template: azure-subpipeline-deploy-to-qa-appservice.yaml
     parameters:
       environment: ${{ variables.environment }} 
       webAppName: '${{ variables.appServicePrefix }}-qa'
@@ -222,7 +237,7 @@ stages:
   variables: 
     Environment: Production
   jobs:
-  - template: azure-subpipeline-deploy-to-k8-cluster.yaml
+  - template: azure-subpipeline-deploy-to-k8-prod-cluster.yaml
     parameters:
       environment: ${{ variables.environment }} 
       webAppName: '${{ variables.appServicePrefix }}-prod'
