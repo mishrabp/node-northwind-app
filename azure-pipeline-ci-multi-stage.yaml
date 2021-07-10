@@ -65,6 +65,9 @@ stages:
   jobs:
   - job: Compile
     displayName: 'Compile NPM Code' 
+    pool:
+      name: "MyBuildAgents"
+      demand: node.js
     steps:
     - task: NodeTool@0
       inputs:
@@ -103,11 +106,7 @@ stages:
           !Dockerfile
           !LICENSE
         targetFolder: '$(build.artifactstagingdirectory)/www'
-#    - task: CopyFiles@2
-#      displayName: 'Copy terrraform files to terraform folder'
-#      inputs:
-#        SourceFolder: terraform
-#        TargetFolder: '$(build.artifactstagingdirectory)/terraform'
+
     - task: ArchiveFiles@2
       displayName: 'Create a deployable zip file from the www folder'
       inputs:
@@ -131,6 +130,9 @@ stages:
         publishLocation: 'pipeline'
   - job: Dockerize
     displayName: 'Create a Docker Image & Publish to Azure Container Registry - 113136'
+    pool:
+      name: "MyBuildAgents"
+      demand: node.js
     condition:  eq('${{ variables.bBuildDockerImage }}', true) 
     steps:
     - task: Docker@2
@@ -148,6 +150,9 @@ stages:
         tags: ${{ variables.tagName }}
   - job: Dockerize2
     displayName: 'Create a Docker Image & Publish to Public Docker Hub Registry' 
+    pool:
+      name: "MyBuildAgents"
+      demand: node.js
     condition: eq('${{ variables.bBuildDockerImage }}', true) 
     steps:
     - task: Docker@2
@@ -169,7 +174,6 @@ stages:
   condition: eq('${{ variables.bBuildInfrastructure }}', true) 
   pool:
     name: "MyBuildAgents"
-    vmImage: ubuntu-latest
     demand: node.js
   dependsOn: Build
   jobs:
@@ -186,7 +190,6 @@ stages:
   condition: eq('${{ variables.bDeployToQA }}', true) 
   pool:
     name: "MyBuildAgents"
-    vmImage: ubuntu-latest
     demand: node.js
   dependsOn: Infrastructure
   variables: 
@@ -204,7 +207,6 @@ stages:
   condition: eq('${{ variables.bDeployToProd }}', true) 
   pool:
     name: "MyBuildAgents"
-    vmImage: ubuntu-latest
     demand: node.js
   dependsOn: QA
   variables: 
