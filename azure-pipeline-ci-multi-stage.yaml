@@ -209,6 +209,7 @@ stages:
       environment: ${{ variables.environment }} 
       containerName: '${{ variables.appServicePrefix }}-dev'
       imageName: '${{ variables.publicRepository }}:${{ variables.tagName }}'
+      dbURI: 'mongodb://mongoadmin:passw0rd!@devopsmasterlinuxvm.centralus.cloudapp.azure.com:9003/northwind?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&ssl=false'
 
 - stage: QA
   displayName: 'Deploy Code to QA Web App Service'
