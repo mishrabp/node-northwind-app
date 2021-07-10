@@ -237,7 +237,7 @@ stages:
   variables: 
     Environment: Production
   jobs:
-  - template: azure-subpipeline-deploy-to-k8-prod-cluster.yaml
+  - template: azure-subpipeline-deploy-to-prod-k8-cluster.yaml
     parameters:
       environment: ${{ variables.environment }} 
       webAppName: '${{ variables.appServicePrefix }}-prod'
