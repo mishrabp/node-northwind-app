@@ -18,15 +18,15 @@ variables:
 - group: PipelineVariableGroup
 #Build & Deployment flags used for debugging & troubleshooting
 - name: bBuildInfrastructure
-  value: false 
-- name: bDeployToDev
   value: true 
+- name: bDeployToDev
+  value: false 
 - name: bDeployToQA
-  value: false 
+  value: true 
 - name: bDeployToProd
-  value: false 
+  value: true 
 - name: bBuildDockerImage
-  value: false 
+  value: true 
 #Pipeline Variables
 - name: appServicePlan
   value: 'node-northwind-app-sp' 
