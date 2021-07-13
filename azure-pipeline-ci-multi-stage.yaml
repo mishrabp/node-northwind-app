@@ -20,7 +20,7 @@ variables:
 - name: bBuildInfrastructure
   value: true 
 - name: bDeployToDev
-  value: false 
+  value: true 
 - name: bDeployToQA
   value: false 
 - name: bDeployToProd

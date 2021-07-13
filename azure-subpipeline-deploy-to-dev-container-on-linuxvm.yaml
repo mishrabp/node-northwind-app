@@ -7,7 +7,9 @@ parameters:
 
 jobs:
 - deployment: DeployToLinuxVM
-  environment: ${{ parameters.environment }}
+  environment: 
+    name: ${{ parameters.environment }}
+    resourceType: VirtualMachine
   strategy: 
     runOnce:
       deploy:
