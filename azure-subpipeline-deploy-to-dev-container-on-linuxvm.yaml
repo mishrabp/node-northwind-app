@@ -16,6 +16,19 @@ jobs:
         steps:
         - download: none
         - task: Bash@3
+          displayName: 'Install Docker CLI'
+          inputs:
+            targetType: 'inline' #inline executes the code in the development environment resources, not on agent where the pipeline is running
+            script: |
+              echo "Installing Docker CLI"
+              sh "sudo apt-get update -y"
+              sh "curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -"
+              sh "sudo add-apt-repository 'deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable'"
+              sh "sudo apt-get update -y"
+              sh "sudo apt-get install docker-ce docker-ce-cli containerd.io -y"
+              sh "sudo docker version"
+            failOnStderr: false
+        - task: Bash@3
           displayName: 'Remove runing docker container'
           inputs:
             targetType: 'inline' #inline executes the code in the development environment resources, not on agent where the pipeline is running
